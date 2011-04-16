@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="createyouraccount">Create your account!</string>
+    <string name="byclickingyouaccept">By clicking on register, you accept the Term Of Service.</string>
+<string name="needactivate">Your account has been created, but now you need to activate it, using the link available in the registration e-mail ! (check your spams)</string>
+    <string name="registering">Registering...</string>
+    <string name="passworddontmatch">Passwords don\'t match!</string>
+</resources>

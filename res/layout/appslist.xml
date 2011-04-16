@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@color/gray"
+    >
+    
+<ImageView android:id="@+id/ImageViewIcon" android:layout_width="48px" android:layout_height="70px"
+		android:gravity="center"
+	/>
+	
+<LinearLayout
+    android:orientation="vertical"
+    android:layout_height="fill_parent"
+    android:layout_width="wrap_content"
+    android:paddingLeft="5px"
+    >
+    
+	<TextView  
+		android:id="@+id/TextViewName"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="name" 
+	    android:textColor="@android:color/white"
+	    android:textStyle="bold"/>
+	    
+   <LinearLayout
+    android:orientation="horizontal"
+    android:layout_height="fill_parent"
+    android:layout_width="wrap_content">
+		<!-- <ImageView android:id="@+id/ImageRated1" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>
+		<ImageView android:id="@+id/ImageRated2" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>
+		<ImageView android:id="@+id/ImageRated3" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>
+		<ImageView android:id="@+id/ImageRated4" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>
+		<ImageView android:id="@+id/ImageRated5" 
+			android:layout_width="wrap_content" 
+			android:layout_height="wrap_content"/>-->
+		<RatingBar android:id="@+id/ratingbar" 
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content" 
+			android:numStars="5"
+			android:isIndicator="true"
+			style="?android:attr/ratingBarStyleSmall" /> 
+	</LinearLayout>
+	
+</LinearLayout>
+
+</LinearLayout>

@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/Blue"
+    >
+    
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    style="@style/Title"
+    android:text="@string/yaammarket"
+    />
+    
+
+<LinearLayout android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="center"
+    >
+		<Button android:text="@string/applications_button"
+			 android:id="@+id/ButtonApps" 
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"/>
+		 
+		<Button android:text="@string/games_button"
+			 android:id="@+id/ButtonGames" 
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"/>
+			 
+		<Button android:text="@string/updates_button"
+			 android:id="@+id/ButtonUpdates" 
+			 android:layout_width="wrap_content"
+			 android:layout_height="wrap_content"/>
+</LinearLayout>
+
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    style="@style/Title"
+    android:text="@string/recommendedapps"
+    android:paddingTop="5px"/>
+
+<ListView android:layout_height="wrap_content" android:cacheColorHint="#00000000"
+android:id="@+id/ListViewRecommended" android:layout_width="fill_parent"></ListView>
+
+</LinearLayout>

@@ -1,0 +1,18 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/layout_root"
+              android:orientation="vertical"
+              android:layout_width="fill_parent"
+              android:layout_height="wrap_content"
+              android:minWidth="280px">
+
+<TextView  
+	style="@style/Title"
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    android:text="@string/choosepayment"
+    />
+    
+     <Button android:text="@string/discount" android:id="@+id/ButtonDiscount" 
+     android:layout_width="fill_parent" android:layout_height="wrap_content"></Button>
+
+</LinearLayout>

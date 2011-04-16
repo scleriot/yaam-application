@@ -1,0 +1,22 @@
+<resources><string name="app_infos">Informations</string>
+<string name="app_comments">Comments</string>
+<string name="app_comment">Comment &amp; Rate</string>
+<string name="app_rate">Rate</string>
+<string name="uninstall">Uninstall</string>
+<string name="open">Open</string>
+<string name="downloads">Downloads</string>
+<string name="applicationcontainswidget">Application contains a widget. Long press on Home Screen !</string>
+<string name="by">by</string>
+<string name="download">Install</string>
+<string name="update">Update</string>
+<string name="buy">Buy</string>
+<string name="choosepayment">Choose your payment method</string>
+<string name="successbought">Application has been successfully bought. Choose "Install" to get Application!</string>
+<string name="errorbought">Error while buying application, please contact us on contact@yaam.mobi and give us your username, Paypal transaction ID and application name!</string>
+
+
+<string name="updatesavailable">Some applications got an update. Click here to check!</string>
+<string name="newupdate">New updates</string>
+
+
+</resources>

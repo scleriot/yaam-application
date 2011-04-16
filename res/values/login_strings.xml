@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    
+<string name="signin">Sign In :</string>
+<string name="signin_button">Sign In!</string>
+<string name="donthaveaccount">Don\'t have an account ?</string>
+<string name="register_button">Register!</string>
+<string name="logging">Logging</string>
+<string name="errorconnection">An error has occured, please check your password or username!</string>
+<string name="terminal_phone">Phone</string>
+<string name="terminal_tablet">Tablet</string>
+<string name="terminal_googletv">Google TV</string>
+</resources>

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+<string name="allapplications">All Applications</string>
+<string name="allgames">All Games</string>
+<string name="categories">Categories</string>
+<string name="categories_free">Free</string>
+<string name="categories_paid">Paid</string>
+<string name="top">Top</string>
+<string name="last">Last</string>
+</resources>

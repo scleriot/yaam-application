@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    style="@style/Blue"
+    >
+    
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    style="@style/Title"
+    android:text="@string/signin"
+    />
+    
+
+    
+<EditText android:hint="@string/username" 
+	android:id="@+id/EditTextUsername" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:singleLine="true"
+	android:paddingLeft="10px"
+	android:paddingRight="10px" />
+	
+<EditText android:hint="@string/password" 
+	android:id="@+id/EditTextPassword" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:singleLine="true"
+	android:paddingLeft="10px"
+	android:paddingRight="10px"
+	android:password="true" />
+	
+<RadioGroup android:layout_width="fill_parent"
+android:layout_height="wrap_content"
+android:orientation="horizontal"
+android:id="@+id/radiogroup">
+	<RadioButton android:text="@string/terminal_phone"
+	 android:id="@+id/RadioPhone" 
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"
+	 android:checked="true"/>
+	 
+	 <RadioButton android:text="@string/terminal_tablet"
+	 android:id="@+id/RadioTablet" 
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"/>
+	 
+	  <RadioButton android:text="@string/terminal_googletv"
+	 android:id="@+id/RadioGoogleTV" 
+	 android:layout_width="wrap_content"
+	 android:layout_height="wrap_content"/>
+</RadioGroup>
+	
+<Button android:text="@string/signin_button" 
+	android:id="@+id/ButtonLogin" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:paddingTop="10px" />
+	
+	
+<TextView  
+    android:layout_width="fill_parent" 
+    android:layout_height="wrap_content" 
+    style="@style/Title"
+    android:text="@string/donthaveaccount"
+    />
+    
+<Button android:text="@string/register_button" 
+	android:id="@+id/ButtonRegister" 
+	android:layout_width="fill_parent" 
+	android:layout_height="wrap_content"
+	android:paddingTop="10px" />
+	
+
+</LinearLayout>

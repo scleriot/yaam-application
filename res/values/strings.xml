@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<resources>
+    <string name="app_name">YAAM</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="email">E-mail adress</string>
+    <string name="contactingserver">Contacting server...</string>
+    <string name="erroroccured">An error has occured, please try again later...</string>
+    <string name="yaammarket">YAAM Market</string>
+    <string name="updates_menu">Updates</string>
+    <string name="search_menu">Search</string>
+    <string name="settings_menu">Settings</string>
+    <string name="disconnect_menu">Disconnect</string>
+    <string name="discount">Discount</string>
+    <string name="next">Next</string>
+    <string name="prev">Previous</string>
+    <string name="welcome">Welcome on YAAM 2.0, the totally new YAAM application. You\'ll notice that everything is more fluid and clean. Some application can have problem with name or description, because of new encoding system, so please, tell us at contact@yaam.mobi!</string>
+    
+    <string name="newyaamupdate">YAAM update is available</string>
+    <string name="yaamupdate">Click here to update!</string>
+</resources>

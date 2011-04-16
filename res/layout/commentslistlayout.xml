@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+    
+<TableLayout android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    >
+<TableRow android:gravity="left" android:layout_width="fill_parent">	    
+	<TextView  
+		android:id="@+id/nameCommentsList"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content" 
+	    android:text="name" 
+	    android:textStyle="bold"/>
+</TableRow>
+
+<TableRow android:gravity="left" android:layout_width="fill_parent">	    
+	<TextView  
+		android:id="@+id/commentCommentsList"
+	    android:layout_width="fill_parent" 
+	    android:layout_height="wrap_content" 
+	    android:text="comment"
+	    android:paddingTop="5px"
+	    android:width="300px"
+	    />
+</TableRow>
+
+</TableLayout>
+
+</LinearLayout>
