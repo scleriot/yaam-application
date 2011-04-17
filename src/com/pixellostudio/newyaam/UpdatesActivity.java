@@ -51,6 +51,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -84,7 +85,15 @@ public class UpdatesActivity extends BaseActivity {
         TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
 		textCatName.setText(getBaseContext().getText(R.string.updates_menu)+" ("+getText(R.string.top)+")".toString());
 		
+		Button buttonPrev = (Button) findViewById(R.id.ButtonPrevPaid);
+		Button buttonNext = (Button) findViewById(R.id.ButtonNextPaid);
+		Button buttonPrev2 = (Button) findViewById(R.id.ButtonPrevFree);
+		Button buttonNext2 = (Button) findViewById(R.id.ButtonNextFree);
 		
+		buttonPrev.setVisibility(View.GONE);
+		buttonNext.setVisibility(View.GONE);
+		buttonPrev2.setVisibility(View.GONE);
+		buttonNext2.setVisibility(View.GONE);
 		
 		LoadInfos();
 	}
