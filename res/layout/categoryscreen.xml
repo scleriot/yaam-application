@@ -42,9 +42,23 @@ android:layout_height="fill_parent">
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
    android:id="@+id/LinearLayoutPaid"
+   android:layout_weight="1"
    >
 <ListView android:layout_height="wrap_content" android:cacheColorHint="#00000000"
-android:id="@+id/ListViewAppsPaid" android:layout_width="fill_parent"></ListView>
+android:id="@+id/ListViewAppsPaid" android:layout_width="fill_parent" android:layout_weight="1" ></ListView>
+
+		<LinearLayout
+				    android:orientation="horizontal"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="0"
+				    android:layout_marginTop="5px"
+				    >
+			<Button android:layout_gravity="center" android:text="@string/prev" android:id="@+id/ButtonPrevPaid" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	
+			    	 
+			<Button android:layout_gravity="center" android:text="@string/next" android:id="@+id/ButtonNextPaid" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		</LinearLayout>
+
 </LinearLayout>
 
 <LinearLayout
@@ -52,12 +66,26 @@ android:id="@+id/ListViewAppsPaid" android:layout_width="fill_parent"></ListView
    android:layout_width="fill_parent"
    android:layout_height="fill_parent"
    android:id="@+id/LinearLayoutFree"
+   android:layout_weight="1"
    >
 <ListView android:layout_height="wrap_content" android:cacheColorHint="#00000000"
-android:id="@+id/ListViewAppsFree" android:layout_width="fill_parent"></ListView>
+android:id="@+id/ListViewAppsFree" android:layout_width="fill_parent" android:layout_weight="1" ></ListView>
+
+		<LinearLayout
+				    android:orientation="horizontal"
+				    android:layout_width="fill_parent"
+				    android:layout_height="wrap_content"
+				    android:layout_weight="0"
+				    android:layout_marginTop="5px"
+				    >
+			<Button android:layout_gravity="center" android:text="@string/prev" android:id="@+id/ButtonPrevFree" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	
+			    	 
+			<Button android:layout_gravity="center" android:text="@string/next" android:id="@+id/ButtonNextFree" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+		</LinearLayout>
+
 </LinearLayout>
 
-
+				
 </FrameLayout>
 
 </LinearLayout>

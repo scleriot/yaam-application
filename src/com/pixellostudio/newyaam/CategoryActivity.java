@@ -38,11 +38,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -54,7 +57,8 @@ public class CategoryActivity extends BaseActivity {
 	List<Integer> appIdsFree=new ArrayList<Integer>();
 	List<Integer> appIdsPaid=new ArrayList<Integer>();
 	String order="top";
-	int page=0;
+	int pageFree=0;
+	int pagePaid=0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -78,7 +82,83 @@ public class CategoryActivity extends BaseActivity {
 		textCatName.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
 		
 		
+		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+		int width = display.getWidth(); 
+		
+		/////FREE BUTTONS//////
+		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		//buttonPrevFree.setBackgroundDrawable(this.getResources().getDrawable(android.R.drawable.));
+		buttonPrevFree.setWidth(width/2);
+		buttonPrevFree.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pageFree--;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		Button buttonNextFree = (Button) findViewById(R.id.ButtonNextFree);
+		buttonNextFree.setWidth(width/2);
+		buttonNextFree.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pageFree++;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		
+		
+	/////PAID BUTTONS//////
+		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		buttonPrevPaid.setWidth(width/2);
+		buttonPrevPaid.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pagePaid--;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		Button buttonNextPaid = (Button) findViewById(R.id.ButtonNextPaid);
+		buttonNextPaid.setWidth(width/2);
+		buttonNextPaid.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pagePaid++;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		
+		updateButtons();
 		LoadInfos();
+	}
+	
+	public void updateButtons()
+	{
+		///FREE BUTTONS///
+		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		if(pageFree<=0)
+			buttonPrevFree.setEnabled(false);
+		else
+			buttonPrevFree.setEnabled(true);
+		
+		
+		///PAID BUTTONS///
+		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		if(pagePaid<=0)
+			buttonPrevPaid.setEnabled(false);
+		else
+			buttonPrevPaid.setEnabled(true);
 	}
 	
 	
@@ -90,8 +170,8 @@ public class CategoryActivity extends BaseActivity {
 		String sdk=Build.VERSION.SDK;
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 		try {
-			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+page+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
-			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+page+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
+			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+pageFree+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
+			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+pagePaid+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -226,20 +306,8 @@ public class CategoryActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
     	menu.add(0, 1, 0, R.string.top);
     	menu.add(0, 2, 0, R.string.last);
-    	menu.add(0, 6, 0, R.string.prev);
-    	menu.add(0, 5, 0, R.string.next);
     	menu.add(0, 3, 0, R.string.search_menu).setIcon(android.R.drawable.ic_menu_search);
         return true;
-    }
-    public boolean onPrepareOptionsMenu (Menu menu)
-    {
-		menu.getItem(2).setEnabled(true);
-		menu.getItem(3).setEnabled(true);
-		
-		if(page<=0)
-			menu.getItem(2).setEnabled(false);
-    		
-		return true;
     }
     
     public boolean onOptionsItemSelected(MenuItem item) { 	
@@ -254,14 +322,6 @@ public class CategoryActivity extends BaseActivity {
         	order="last";
         	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
     		textCatName2.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.last).toString()+")");
-    		LoadInfos();
-            return true;
-        case 5: //Next Page
-        	page++;
-    		LoadInfos();
-            return true;
-        case 6: //Previous Page
-        	page--;
     		LoadInfos();
             return true;
         case 3: //Search
