@@ -61,6 +61,7 @@ public class WatchScreensActivity extends Activity {
         ImageView imageView = (ImageView)this.findViewById(R.id.ImageViewScreen);
         
         imageView.setImageBitmap(Tools.loadImageFromUrl(url));
+        
     }
 
 }
