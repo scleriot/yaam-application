@@ -41,10 +41,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.widget.Toast;
 
-import com.pixellostudio.tools.DownloadHandler;
-import com.pixellostudio.tools.DownloadProcessor;
-import com.pixellostudio.tools.Tools;
-
 
 public class Functions implements Runnable
 {

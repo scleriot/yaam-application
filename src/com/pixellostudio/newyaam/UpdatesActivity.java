@@ -54,8 +54,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.pixellostudio.tools.Tools;
-
 public class UpdatesActivity extends BaseActivity {
 	List<Integer> appIds=new ArrayList<Integer>();
 	String order="top";

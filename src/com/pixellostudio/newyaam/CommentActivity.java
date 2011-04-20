@@ -37,8 +37,6 @@ import android.widget.EditText;
 import android.widget.RatingBar;
 import android.widget.RatingBar.OnRatingBarChangeListener;
 
-import com.pixellostudio.tools.Tools;
-
 
 public class CommentActivity extends BaseActivity implements OnRatingBarChangeListener{
 	ProgressDialog progressDialog;

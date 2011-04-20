@@ -51,8 +51,6 @@ import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
-import com.pixellostudio.tools.Tools;
-
 public class CategoryActivity extends BaseActivity {
 	List<Integer> appIdsFree=new ArrayList<Integer>();
 	List<Integer> appIdsPaid=new ArrayList<Integer>();

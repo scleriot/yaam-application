@@ -33,8 +33,6 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 
-import com.pixellostudio.tools.Tools;
-
 public class RegisterActivity extends Activity{
 	ProgressDialog progressDialog;
 	

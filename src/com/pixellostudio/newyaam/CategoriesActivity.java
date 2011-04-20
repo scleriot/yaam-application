@@ -39,8 +39,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import com.pixellostudio.tools.Tools;
-
 public class CategoriesActivity extends BaseActivity{
 	List<String> categoriesId=new ArrayList<String>();
 	List<String> categoriesName=new ArrayList<String>();

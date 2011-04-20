@@ -48,8 +48,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 
-import com.pixellostudio.tools.Tools;
-
 public class HomeActivity extends BaseActivity{
 	List<Integer> appIds=new ArrayList<Integer>();
 	

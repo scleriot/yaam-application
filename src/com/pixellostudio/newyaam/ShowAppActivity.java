@@ -77,7 +77,6 @@ import com.paypal.android.MEP.PayPalAdvancedPayment;
 import com.paypal.android.MEP.PayPalInvoiceData;
 import com.paypal.android.MEP.PayPalInvoiceItem;
 import com.paypal.android.MEP.PayPalReceiverDetails;
-import com.pixellostudio.tools.Tools;
 
 public class ShowAppActivity extends BaseActivity {
 	private String idApp="",name="",size="",packagename="",versionName="",widget="",price="",screens="",rating="",icon="",description="", devname="", devpaypal="", dlCount="";

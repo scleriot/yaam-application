@@ -43,8 +43,6 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 
-import com.pixellostudio.tools.Tools;
-
 public class CheckUpdatesBroadcast extends BroadcastReceiver {
 	List<Integer> appIds=new ArrayList<Integer>();
 	Context _Context;

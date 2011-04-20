@@ -42,8 +42,6 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 
-import com.pixellostudio.tools.Tools;
-
 public class WatchScreensActivity extends Activity {
     /** Called when the activity is first created. */
     @Override

@@ -41,8 +41,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RadioButton;
 
-import com.pixellostudio.tools.Tools;
-
 
 public class LoginActivity extends Activity{
 	ProgressDialog progressDialog;
