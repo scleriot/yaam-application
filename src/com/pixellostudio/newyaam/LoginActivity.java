@@ -18,6 +18,8 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import java.io.File;
+import java.io.FileWriter;
 import java.net.URLEncoder;
 
 import android.app.Activity;
@@ -28,6 +30,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
+import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -54,7 +57,7 @@ public class LoginActivity extends Activity{
         setContentView(R.layout.loginscreen);
         
         SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
-        if(pref.getBoolean("connected", false))
+        if(pref.getBoolean("connected1", false))
         {
         	Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -124,15 +127,53 @@ public class LoginActivity extends Activity{
     		if(content.equals("ok"))
     		{    			
     			EditText editUsername = (EditText) findViewById(R.id.EditTextUsername);
+    			EditText editPassword = (EditText) findViewById(R.id.EditTextPassword);
     			SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(LoginActivity.this.getApplicationContext());
   				
     			
   				Editor editor=pref.edit();
-  				editor.putBoolean("connected", true);
+  				editor.putBoolean("connected1", true);
   				editor.putString("username", editUsername.getText().toString());
+  				editor.putString("password", Tools.sha1("yaamprotection"+editPassword.getText().toString()+"echoyaamemee"));
   				editor.putString("terminal", terminal);
   				editor.commit();
     			
+  				
+  				File file=new File(Environment.getExternalStorageDirectory().toString()+"/.yaam/user");
+  	            file.delete();
+
+  	            try {
+  	            	String username=Tools.sha1(pref.getString("username", "").toUpperCase()+"YAAMISTHEBEST");
+  	            	
+  		        	FileWriter writer = new FileWriter(file);
+  		        	
+  		        	writer.append(username);
+  		            writer.flush();
+  		            writer.close();
+  	            } 
+  	            catch (Exception e) { 
+  	            	e.printStackTrace();
+  	            } 
+  	            
+  	            
+  	            file=new File(Environment.getExternalStorageDirectory().toString()+"/.yaam/password");
+  	            file.delete();
+
+  	            try {
+  	            	String pass=Tools.sha1("yaamprotection"+editPassword.getText().toString()+"echoyaamemee");
+  	            	
+  		        	FileWriter writer = new FileWriter(file);
+  		        	
+  		        	writer.append(pass);
+  		            writer.flush();
+  		            writer.close();
+  	            } 
+  	            catch (Exception e) { 
+  	            	e.printStackTrace();
+  	            } 
+  				
+  				
+  				
   				Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
                 startActivity(intent);
                 finish();

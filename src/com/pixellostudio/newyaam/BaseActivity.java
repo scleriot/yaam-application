@@ -52,7 +52,7 @@ public class BaseActivity extends Activity {
         yaamDir.mkdir();
 		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
-        if(!pref.getBoolean("connected", false))
+        if(!pref.getBoolean("connected1", false))
         {
         	Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);
@@ -129,7 +129,7 @@ public class BaseActivity extends Activity {
         	SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(BaseActivity.this.getApplicationContext());
 			
 			Editor editor=pref.edit();
-			editor.putBoolean("connected", false);
+			editor.putBoolean("connected1", false);
 			editor.putString("username", "");
 			editor.putString("terminal", "");
 			editor.commit();
