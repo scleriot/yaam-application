@@ -38,9 +38,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -65,7 +62,7 @@ public class CheckUpdatesBroadcast extends BroadcastReceiver {
 		String sdk=Build.VERSION.SDK;
 		String lang=_Context.getResources().getConfiguration().locale.getISO3Language();
 		try {
-			Tools.queryWeb(Functions.getHost(_Context)+"/apps/updates.php?order=top&username="+URLEncoder.encode(username,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(_Context), parser);
+			Tools.queryWeb(Functions.getHost(_Context)+"/apps/getUpdates.php?order=top&username="+URLEncoder.encode(username,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(_Context), parser);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -88,11 +85,8 @@ public class CheckUpdatesBroadcast extends BroadcastReceiver {
 				  String id;
 				  id=Functions.getDataFromXML(E1,"id");
 			
-				  
-				  if(isUpdate(Functions.getDataFromXML(E1,"package"),Functions.getDataFromXML(E1,"version")))
-				  {					  
-					  appIds.add(Integer.valueOf(id));
-				  }
+				  			  
+				  appIds.add(Integer.valueOf(id));
 			}
 			
 			if(appIds.size()>0)
@@ -115,28 +109,4 @@ public class CheckUpdatesBroadcast extends BroadcastReceiver {
     	}
     };
     
-    boolean isUpdate(String packagename,String versionName)
-    {
-    	PackageManager pm=_Context.getPackageManager();
-		
-		try {
-			PackageInfo infos=pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
-						
-			if(infos!=null)
-			{
-				if(versionName.equals(infos.versionName))
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-				return false;
-		} catch (NameNotFoundException e) {
-			return false;
-		}
-    }
 }

@@ -44,7 +44,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
@@ -83,6 +82,7 @@ import com.pixellostudio.tools.Tools;
 public class ShowAppActivity extends BaseActivity {
 	private String idApp="",name="",size="",packagename="",versionName="",widget="",price="",screens="",rating="",icon="",description="", devname="", devpaypal="", dlCount="";
 	private String url;
+	private String isUpdate;
 	
 	private float fees=0f;
 	
@@ -223,8 +223,15 @@ public class ShowAppActivity extends BaseActivity {
     	{
     		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
     		idApp=String.valueOf(getIntent().getExtras().getInt("id"));
-        	url = Functions.getHost(getApplicationContext())+"/apps/application.php?appid="+idApp+"&lang="+lang+"&ypass="+Functions.getPassword(getApplicationContext());
 
+        	SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(ShowAppActivity.this);  
+    		String username=pref.getString("username", "");
+        	try {
+				url = Functions.getHost(getApplicationContext())+"/apps/application.php?username="+URLEncoder.encode(username,"UTF-8")+"&appid="+idApp+"&lang="+lang+"&ypass="+Functions.getPassword(getApplicationContext());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+        	
     		LoadInfos();
     	}
     	
@@ -262,9 +269,15 @@ public class ShowAppActivity extends BaseActivity {
 	public Handler gotId=new Handler()
     {
     	public void handleMessage(Message msg) {
+    		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(ShowAppActivity.this);  
     		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
     		idApp=msg.getData().getString("content");
-        	url = Functions.getHost(getApplicationContext())+"/apps/application.php?appid="+idApp+"&lang="+lang+"&ypass="+Functions.getPassword(getApplicationContext());
+    		String username=pref.getString("username", "");
+        	try {
+				url = Functions.getHost(getApplicationContext())+"/apps/application.php?username="+URLEncoder.encode(username,"UTF-8")+"&appid="+idApp+"&lang="+lang+"&ypass="+Functions.getPassword(getApplicationContext());
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
 
     		LoadInfos();
     	}
@@ -299,6 +312,8 @@ public class ShowAppActivity extends BaseActivity {
 				  devname=Functions.getDataFromXML(E1,"devname");
 				  widget=Functions.getDataFromXML(E1,"widget");
 				  devpaypal=Functions.getDataFromXML(E1,"devpaypal");
+				  
+				  isUpdate=Functions.getDataFromXML(E1,"update");
 				  
 				  fees=Float.valueOf(Functions.getDataFromXML(E1,"fees"));
 			  }
@@ -394,7 +409,7 @@ public class ShowAppActivity extends BaseActivity {
 	        
 			if(isAppInstalled())
 	    	{
-	    		if(isUpdate())
+	    		if(isUpdate.equals("1"))
 	    		{
 	    			buttonOpen.setVisibility(View.GONE);
 	    			buttonUninstall.setVisibility(View.VISIBLE);
@@ -461,7 +476,7 @@ public class ShowAppActivity extends BaseActivity {
 	
 	
 	
-	boolean isUpdate()
+	/*boolean isUpdate()
     {
     	PackageManager pm=this.getApplicationContext().getPackageManager();
 		
@@ -484,7 +499,7 @@ public class ShowAppActivity extends BaseActivity {
 		} catch (NameNotFoundException e) {
 			return false;
 		}
-    }
+    }*/
 	
 	public boolean isAppInstalled()
     {

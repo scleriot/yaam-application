@@ -38,9 +38,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
-import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
-import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -79,7 +76,7 @@ public class UpdatesActivity extends BaseActivity {
         //TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator("").setContent(R.id.LinearLayoutFree);
         //mTabHost.addTab(tab2);
 		
-        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;
+        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 10;
         //mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
 		
         TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
@@ -122,8 +119,7 @@ public class UpdatesActivity extends BaseActivity {
 		String sdk=Build.VERSION.SDK;
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 		try {
-			//Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/updates.php?order="+order+"&username="+URLEncoder.encode(username,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
-			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/updates.php?order="+order+"&username="+URLEncoder.encode(username,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parser);
+			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/getUpdates.php?order="+order+"&username="+URLEncoder.encode(username,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parser);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -156,16 +152,13 @@ public class UpdatesActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  if(isUpdate(Functions.getDataFromXML(E1,"package"),Functions.getDataFromXML(E1,"version")))
-				  {
-					  names.add(name);
-					  
-					  appIds.add(Integer.valueOf(id));
-					  
-					  icons.add(icon);
-					  prices.add(Float.valueOf(price));
-					  ratings.add(Float.valueOf(rating));
-				  }
+				  names.add(name);
+				  
+				  appIds.add(Integer.valueOf(id));
+				  
+				  icons.add(icon);
+				  prices.add(Float.valueOf(price));
+				  ratings.add(Float.valueOf(rating));
 			  }
 			
 			ListView listRecommended = (ListView) findViewById(R.id.ListViewAppsPaid);
@@ -241,29 +234,4 @@ public class UpdatesActivity extends BaseActivity {
         return false;
     }
     
-    
-    boolean isUpdate(String packagename,String versionName)
-    {
-    	PackageManager pm=this.getApplicationContext().getPackageManager();
-		
-		try {
-			PackageInfo infos=pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
-						
-			if(infos!=null)
-			{
-				if(versionName.equals(infos.versionName))
-				{
-					return false;
-				}
-				else
-				{
-					return true;
-				}
-			}
-			else
-				return false;
-		} catch (NameNotFoundException e) {
-			return false;
-		}
-    }
 }
