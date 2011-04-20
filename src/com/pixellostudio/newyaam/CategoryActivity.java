@@ -316,12 +316,18 @@ public class CategoryActivity extends BaseActivity {
         	order="top";
         	TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
     		textCatName.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
+    		pageFree=0;
+    		pagePaid=0;
+    		updateButtons();
     		LoadInfos();
             return true;
         case 2: //Last
         	order="last";
         	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
     		textCatName2.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.last).toString()+")");
+    		pageFree=0;
+    		pagePaid=0;
+    		updateButtons();
     		LoadInfos();
             return true;
         case 3: //Search

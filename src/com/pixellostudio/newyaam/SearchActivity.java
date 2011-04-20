@@ -40,11 +40,14 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.Display;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
@@ -57,6 +60,9 @@ public class SearchActivity extends BaseActivity {
 	List<Integer> appIdsPaid=new ArrayList<Integer>();
 	String order="top";
 	String query;
+	
+	int pageFree=0;
+	int pagePaid=0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -88,8 +94,83 @@ public class SearchActivity extends BaseActivity {
 			LoadInfos();
 	    }
 		
+	    Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
+		int width = display.getWidth(); 
+		
+		/////FREE BUTTONS//////
+		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		//buttonPrevFree.setBackgroundDrawable(this.getResources().getDrawable(android.R.drawable.));
+		buttonPrevFree.setWidth(width/2);
+		buttonPrevFree.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pageFree--;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		Button buttonNextFree = (Button) findViewById(R.id.ButtonNextFree);
+		buttonNextFree.setWidth(width/2);
+		buttonNextFree.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pageFree++;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		
+		
+	/////PAID BUTTONS//////
+		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		buttonPrevPaid.setWidth(width/2);
+		buttonPrevPaid.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pagePaid--;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		Button buttonNextPaid = (Button) findViewById(R.id.ButtonNextPaid);
+		buttonNextPaid.setWidth(width/2);
+		buttonNextPaid.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+            	pagePaid++;
+            	
+            	updateButtons();
+            	
+        		LoadInfos();
+            }
+	     }); 
+		
+		
+		updateButtons();
 	}
 	
+	public void updateButtons()
+	{
+		///FREE BUTTONS///
+		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		if(pageFree<=0)
+			buttonPrevFree.setEnabled(false);
+		else
+			buttonPrevFree.setEnabled(true);
+		
+		
+		///PAID BUTTONS///
+		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		if(pagePaid<=0)
+			buttonPrevPaid.setEnabled(false);
+		else
+			buttonPrevPaid.setEnabled(true);
+	}
 	
 	public void LoadInfos()
 	{
@@ -98,8 +179,8 @@ public class SearchActivity extends BaseActivity {
 		String sdk=Build.VERSION.SDK;
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 		try {
-			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
-			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
+			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?page="+pageFree+"&order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
+			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?page="+pagePaid+"&order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
@@ -246,12 +327,18 @@ public class SearchActivity extends BaseActivity {
         	order="top";
         	TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
     		textCatName.setText(getBaseContext().getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
+    		pageFree=0;
+    		pagePaid=0;
+    		updateButtons();
     		LoadInfos();
             return true;
         case 2: //Last
         	order="last";
         	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
     		textCatName2.setText(getBaseContext().getText(R.string.search_results)+" ("+getText(R.string.last).toString()+")");
+    		pageFree=0;
+    		pagePaid=0;
+    		updateButtons();
     		LoadInfos();
             return true;
         case 3: //Search
