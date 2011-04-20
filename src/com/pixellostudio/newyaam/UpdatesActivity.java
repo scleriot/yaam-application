@@ -73,11 +73,11 @@ public class UpdatesActivity extends BaseActivity {
 		TabSpec tab1=mTabHost.newTabSpec("tab_free").setIndicator("").setContent(R.id.LinearLayoutPaid);
         mTabHost.addTab(tab1);
         
-        //TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator("").setContent(R.id.LinearLayoutFree);
-        //mTabHost.addTab(tab2);
+        TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator("").setContent(R.id.LinearLayoutFree);
+        mTabHost.addTab(tab2);
 		
-        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 10;
-        //mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
+        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 0;
+        mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 0;
 		
         TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
 		textCatName.setText(getBaseContext().getText(R.string.updates_menu)+" ("+getText(R.string.top)+")".toString());
