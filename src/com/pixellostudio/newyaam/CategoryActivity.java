@@ -53,11 +53,16 @@ import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 public class CategoryActivity extends BaseActivity {
+	int PAID=0;
+	int FREE=1;
+	
 	List<Integer> appIdsFree=new ArrayList<Integer>();
 	List<Integer> appIdsPaid=new ArrayList<Integer>();
 	String order="top";
 	int pageFree=0;
 	int pagePaid=0;
+	
+	TabHost mTabHost;
 	
 	private ProgressDialog mProgress;
 	
@@ -67,7 +72,7 @@ public class CategoryActivity extends BaseActivity {
 		
 		setContentView(R.layout.categoryscreen);
 		
-		TabHost mTabHost = (TabHost) this.findViewById(R.id.tabhost);
+		mTabHost = (TabHost) this.findViewById(R.id.tabhost);
 		mTabHost.setup();
 		
 		TabSpec tab1=mTabHost.newTabSpec("tab_free").setIndicator(getText(R.string.categories_paid).toString()).setContent(R.id.LinearLayoutPaid);
@@ -76,8 +81,8 @@ public class CategoryActivity extends BaseActivity {
         TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator(getText(R.string.categories_free).toString()).setContent(R.id.LinearLayoutFree);
         mTabHost.addTab(tab2);
 		
-        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;
-        mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
+        mTabHost.getTabWidget().getChildAt(PAID).getLayoutParams().height = 40;
+        mTabHost.getTabWidget().getChildAt(FREE).getLayoutParams().height = 40;
 		
         TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
 		textCatName.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
@@ -241,6 +246,12 @@ public class CategoryActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
+    		TextView title = (TextView) mTabHost.getTabWidget().getChildAt(FREE).findViewById(android.R.id.title);
+    		if(appIdsFree.size()<10)
+    			title.setText(CategoryActivity.this.getText(R.string.categories_free)+" ("+appIdsFree.size()+")");
+    		else
+    			title.setText(CategoryActivity.this.getText(R.string.categories_free)+" ("+appIdsFree.size()+"+)");
+    		
     		mProgress.dismiss();
     	}
     };
@@ -302,6 +313,12 @@ public class CategoryActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		TextView title = (TextView) mTabHost.getTabWidget().getChildAt(PAID).findViewById(android.R.id.title);
+    		if(appIdsPaid.size()<10)
+    			title.setText(CategoryActivity.this.getText(R.string.categories_paid)+" ("+appIdsPaid.size()+")");
+    		else
+    			title.setText(CategoryActivity.this.getText(R.string.categories_paid)+" ("+appIdsPaid.size()+"+)");
     		
     		mProgress.dismiss();
     	}
