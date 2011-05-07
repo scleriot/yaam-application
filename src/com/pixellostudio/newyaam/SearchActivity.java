@@ -31,6 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -58,6 +59,8 @@ public class SearchActivity extends BaseActivity {
 	List<Integer> appIdsPaid=new ArrayList<Integer>();
 	String order="top";
 	String query;
+	
+	private ProgressDialog mProgress;
 	
 	int pageFree=0;
 	int pagePaid=0;
@@ -172,6 +175,9 @@ public class SearchActivity extends BaseActivity {
 	
 	public void LoadInfos()
 	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
 		String sdk=Build.VERSION.SDK;
@@ -241,6 +247,8 @@ public class SearchActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
 
@@ -301,6 +309,8 @@ public class SearchActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
     

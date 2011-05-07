@@ -87,7 +87,7 @@ public class ShowAppActivity extends BaseActivity {
 	
 	private String discount="0";
 	
-	private ProgressDialog progressDialog;
+	private ProgressDialog progressDialog, mProgress;
 	
 	private Dialog paymentDialog;
 	
@@ -231,7 +231,7 @@ public class ShowAppActivity extends BaseActivity {
 				e.printStackTrace();
 			}
         	
-    		LoadInfos();
+    		//LoadInfos();
     	}
     	
     	else if(this.getIntent().getExtras().getString("package")!=null)
@@ -258,6 +258,9 @@ public class ShowAppActivity extends BaseActivity {
 	
 	public void LoadInfos()
 	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
 		try {
 			Tools.queryWeb(url, parser);
 		} catch (Exception e) {
@@ -464,6 +467,8 @@ public class ShowAppActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
+    		
+    		mProgress.dismiss();
     	}
     };
 	

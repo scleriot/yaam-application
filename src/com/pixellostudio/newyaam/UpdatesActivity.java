@@ -34,6 +34,7 @@ import org.w3c.dom.NodeList;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -60,6 +61,8 @@ public class UpdatesActivity extends BaseActivity {
 	List<Integer> appIds=new ArrayList<Integer>();
 	String order="top";
 	String query;
+	
+	private ProgressDialog mProgress;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -92,7 +95,7 @@ public class UpdatesActivity extends BaseActivity {
 		buttonPrev2.setVisibility(View.GONE);
 		buttonNext2.setVisibility(View.GONE);
 		
-		LoadInfos();
+		//LoadInfos();
 	}
 	
 	@Override
@@ -113,6 +116,9 @@ public class UpdatesActivity extends BaseActivity {
 	
 	public void LoadInfos()
 	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
 		String username=pref.getString("username", "");
@@ -184,6 +190,8 @@ public class UpdatesActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
     

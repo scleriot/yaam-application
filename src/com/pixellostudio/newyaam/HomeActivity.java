@@ -32,6 +32,7 @@ import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -50,6 +51,7 @@ import android.widget.ListView;
 
 public class HomeActivity extends BaseActivity{
 	List<Integer> appIds=new ArrayList<Integer>();
+	private ProgressDialog mProgress;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -97,7 +99,8 @@ public class HomeActivity extends BaseActivity{
 		
 		//Tools.queryWeb(Functions.getHost(getApplicationContext())+"/yaamUpdate.php", yaamUpdateHandler);
 		
-		
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
 		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
@@ -192,6 +195,8 @@ public class HomeActivity extends BaseActivity{
     			e.printStackTrace();
     			//handlerError.sendEmptyMessage(0);
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
 }

@@ -29,6 +29,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -43,6 +44,8 @@ public class CategoriesActivity extends BaseActivity{
 	List<String> categoriesId=new ArrayList<String>();
 	List<String> categoriesName=new ArrayList<String>();
 	
+	private ProgressDialog mProgress;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -52,6 +55,9 @@ public class CategoriesActivity extends BaseActivity{
 		int game=getIntent().getExtras().getInt("game");
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
 		try {
 			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/get.php?lang="+lang+"&game="+game+"&ypass="+Functions.getPassword(getApplicationContext()), parser);
 		} catch (Exception e) {
@@ -123,6 +129,8 @@ public class CategoriesActivity extends BaseActivity{
     			e.printStackTrace();
     			//handlerError.sendEmptyMessage(0);
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
 }

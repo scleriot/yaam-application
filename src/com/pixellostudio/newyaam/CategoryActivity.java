@@ -31,6 +31,7 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Build;
@@ -57,6 +58,8 @@ public class CategoryActivity extends BaseActivity {
 	String order="top";
 	int pageFree=0;
 	int pagePaid=0;
+	
+	private ProgressDialog mProgress;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -137,6 +140,8 @@ public class CategoryActivity extends BaseActivity {
 	     }); 
 		
 		
+		
+		
 		updateButtons();
 		LoadInfos();
 	}
@@ -162,6 +167,9 @@ public class CategoryActivity extends BaseActivity {
 	
 	public void LoadInfos()
 	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
 		int catid=getIntent().getExtras().getInt("id");
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
@@ -232,6 +240,8 @@ public class CategoryActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
 
@@ -292,6 +302,8 @@ public class CategoryActivity extends BaseActivity {
     		} catch (Exception e) {
     			e.printStackTrace();
     		}
+    		
+    		mProgress.dismiss();
     	}
     };
     

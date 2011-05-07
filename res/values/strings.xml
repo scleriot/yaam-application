@@ -15,7 +15,8 @@
     <string name="next">Next</string>
     <string name="prev">Previous</string>
     <string name="welcome">Welcome on YAAM 2.0, the totally new YAAM application. You\'ll notice that everything is more fluid and clean. Some application can have problem with name or description, because of new encoding system, so please, tell us at contact@yaam.mobi!</string>
-    
     <string name="newyaamupdate">YAAM update is available</string>
     <string name="yaamupdate">Click here to update!</string>
+    <string name="loading">Loading...</string>
+    <string name="loadingtext">Retrieving informations from server...</string>
 </resources>
