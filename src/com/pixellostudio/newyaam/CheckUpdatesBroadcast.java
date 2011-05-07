@@ -38,6 +38,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Handler;
 import android.os.Message;
@@ -83,8 +85,10 @@ public class CheckUpdatesBroadcast extends BroadcastReceiver {
 				  String id;
 				  id=Functions.getDataFromXML(E1,"id");
 			
-				  			  
-				  appIds.add(Integer.valueOf(id));
+				  if(isAppInstalled(Functions.getDataFromXML(E1,"package")))
+				  {
+					  appIds.add(Integer.valueOf(id));
+				  }
 			}
 			
 			if(appIds.size()>0)
@@ -106,5 +110,19 @@ public class CheckUpdatesBroadcast extends BroadcastReceiver {
     		}
     	}
     };
+    
+    public boolean isAppInstalled(String packagename)
+    {
+			PackageManager pm=CheckUpdatesBroadcast.this._Context.getPackageManager();
+			
+			try {
+				pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+			} catch (NameNotFoundException e) {
+				return false;
+			}
+			
+			return true;
+    }
+    
     
 }

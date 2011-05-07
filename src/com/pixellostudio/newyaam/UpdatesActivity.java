@@ -38,6 +38,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
+import android.content.pm.PackageManager;
+import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
@@ -150,13 +152,16 @@ public class UpdatesActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  names.add(name);
-				  
-				  appIds.add(Integer.valueOf(id));
-				  
-				  icons.add(icon);
-				  prices.add(Float.valueOf(price));
-				  ratings.add(Float.valueOf(rating));
+				  if(isAppInstalled(Functions.getDataFromXML(E1,"package")))
+				  {
+					  names.add(name);
+					  
+					  appIds.add(Integer.valueOf(id));
+					  
+					  icons.add(icon);
+					  prices.add(Float.valueOf(price));
+					  ratings.add(Float.valueOf(rating));
+				  }
 			  }
 			
 			ListView listRecommended = (ListView) findViewById(R.id.ListViewAppsPaid);
@@ -183,7 +188,18 @@ public class UpdatesActivity extends BaseActivity {
     };
     
     
-    
+    public boolean isAppInstalled(String packagename)
+    {
+			PackageManager pm=this.getApplicationContext().getPackageManager();
+			
+			try {
+				pm.getPackageInfo(packagename, PackageManager.GET_ACTIVITIES);
+			} catch (NameNotFoundException e) {
+				return false;
+			}
+			
+			return true;
+    }
     
     
     

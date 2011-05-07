@@ -37,7 +37,8 @@ public class Tools
 	    	private int number;
 	    	
 	    	@Override
-			protected Integer doInBackground(Object... params) {    
+			protected Integer doInBackground(Object... params) {  
+	    		
 	    		number=0;
 	    		txt="";
 	            try {  
