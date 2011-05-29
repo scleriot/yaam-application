@@ -281,7 +281,7 @@ public class ShowAppActivity extends BaseActivity {
 				e.printStackTrace();
 			}
 
-    		LoadInfos();
+    		//LoadInfos();
     	}
     };
 	
@@ -575,7 +575,7 @@ public class ShowAppActivity extends BaseActivity {
     			       .setCancelable(false)
     			       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
     			           public void onClick(DialogInterface dialog, int id) {
-    			        	   LoadInfos();
+    			        	   //LoadInfos();
     			           }
     			       });
         	}
@@ -585,7 +585,7 @@ public class ShowAppActivity extends BaseActivity {
     		       .setCancelable(false)
     		       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
     		           public void onClick(DialogInterface dialog, int id) {
-    		        	   LoadInfos();
+    		        	   //LoadInfos();
     		           }
     		       });
         	}
@@ -668,7 +668,7 @@ public class ShowAppActivity extends BaseActivity {
     		
     	}
     	
-    	LoadInfos();
+    	//LoadInfos();
     }
     
     
