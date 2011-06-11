@@ -53,6 +53,9 @@ public class LoginActivity extends Activity{
         requestWindowFeature(Window.FEATURE_NO_TITLE);  
         
         setContentView(R.layout.loginscreen);
+
+        // Ensure /sdcard/.yaam directory is present
+        Tools.createYAAMDir();
         
         SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
         if(pref.getBoolean("connected1", false))
