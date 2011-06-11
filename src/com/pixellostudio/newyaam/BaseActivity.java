@@ -18,7 +18,6 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
-import java.io.File;
 import java.util.Calendar;
 
 import android.app.Activity;
@@ -33,7 +32,6 @@ import android.content.SharedPreferences.Editor;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
@@ -46,8 +44,7 @@ public class BaseActivity extends Activity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		File yaamDir=new File(Environment.getExternalStorageDirectory().toString()+"/.yaam");
-        yaamDir.mkdir();
+		Tools.createYAAMDir();
 		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
         if(!pref.getBoolean("connected1", false))
