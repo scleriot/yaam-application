@@ -16,4 +16,8 @@
     <item name="android:textColor">#D06C01</item>
     <item name="android:textStyle">bold</item>
   </style>
+  
+  <style name="yellowRatingBar" parent="@android:style/Widget.RatingBar.Small">
+        <item name="android:progressDrawable">@drawable/ratingbar_yellow</item>
+    </style>
 </resources>

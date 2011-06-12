@@ -32,6 +32,8 @@
 					style="@style/Title"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
+				    android:singleLine="true"
+				    android:ellipsize="marquee"
 				    android:textSize="13sp"/>
 				
 				<LinearLayout
@@ -45,7 +47,7 @@
 							android:layout_height="wrap_content" 
 							android:numStars="5"
 							android:isIndicator="true"
-							style="?android:attr/ratingBarStyleSmall" /> 
+							style="@style/yellowRatingBar" /> 
 			</LinearLayout>
 	</LinearLayout>
 </LinearLayout>

@@ -52,7 +52,7 @@
 			android:layout_height="wrap_content" 
 			android:numStars="5"
 			android:isIndicator="true"
-			style="?android:attr/ratingBarStyleSmall" /> 
+			style="@style/yellowRatingBar" /> 
 	</LinearLayout>
 	
 </LinearLayout>
