@@ -98,7 +98,7 @@ public class AppsListAdapter extends BaseAdapter{
 		 
 		 String price="";
 		 if(prices.get(position)>0)
-			 price="("+prices.get(position)+"â‚¬)";
+			 price="("+prices.get(position)+"Û)";
 		 else
 			 price="(Free)";
 		 
