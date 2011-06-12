@@ -54,7 +54,7 @@ public class BaseActivity extends GDActivity {
 		Tools.createYAAMDir();
 		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
-        if(!pref.getBoolean("connected1", false))
+        if(!pref.getBoolean("connected2", false))
         {
         	Intent intent = new Intent(this, LoginActivity.class);
             startActivity(intent);

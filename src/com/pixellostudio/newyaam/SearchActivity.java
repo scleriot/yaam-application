@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.widget.SegmentedAdapter;
+import greendroid.widget.SegmentedHost;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -42,17 +45,17 @@ import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 
 
 
@@ -73,23 +76,14 @@ public class SearchActivity extends BaseActivity {
 	int pageFree=0;
 	int pagePaid=0;
 	
+	private View mViewFree,mViewPaid;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setActionBarContentView(R.layout.categoryscreen);
 		
 		super.onCreate(savedInstanceState);
 				
-		mTabHost = (TabHost) this.findViewById(R.id.tabhost);
-		mTabHost.setup();
-		
-		TabSpec tab1=mTabHost.newTabSpec("tab_paid").setIndicator(getText(R.string.categories_paid).toString()).setContent(R.id.LinearLayoutPaid);
-        mTabHost.addTab(tab1);
-        
-        TabSpec tab2=mTabHost.newTabSpec("tab_free").setIndicator(getText(R.string.categories_free).toString()).setContent(R.id.LinearLayoutFree);
-        mTabHost.addTab(tab2);
-		
-        mTabHost.getTabWidget().getChildAt(PAID).getLayoutParams().height = 40;
-        mTabHost.getTabWidget().getChildAt(FREE).getLayoutParams().height = 40;
 		
         getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
 		
@@ -105,8 +99,19 @@ public class SearchActivity extends BaseActivity {
 	    Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 		int width = display.getWidth(); 
 		
+		
+		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+		mViewFree=inflater.inflate(R.layout.category_list, null, false);
+        mViewPaid=inflater.inflate(R.layout.category_list, null, false);
+		
+		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+		 
+		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
+        segmentedHost.setAdapter(mAdapter);
+		
+		
 		/////FREE BUTTONS//////
-		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
 		//buttonPrevFree.setBackgroundDrawable(this.getResources().getDrawable(android.R.drawable.));
 		buttonPrevFree.setWidth(width/2);
 		buttonPrevFree.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +124,7 @@ public class SearchActivity extends BaseActivity {
             }
 	     }); 
 		
-		Button buttonNextFree = (Button) findViewById(R.id.ButtonNextFree);
+		Button buttonNextFree = (Button) mViewFree.findViewById(R.id.ButtonNext);
 		buttonNextFree.setWidth(width/2);
 		buttonNextFree.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -134,7 +139,7 @@ public class SearchActivity extends BaseActivity {
 		
 		
 	/////PAID BUTTONS//////
-		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
 		buttonPrevPaid.setWidth(width/2);
 		buttonPrevPaid.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -146,7 +151,7 @@ public class SearchActivity extends BaseActivity {
             }
 	     }); 
 		
-		Button buttonNextPaid = (Button) findViewById(R.id.ButtonNextPaid);
+		Button buttonNextPaid = (Button) mViewPaid.findViewById(R.id.ButtonNext);
 		buttonNextPaid.setWidth(width/2);
 		buttonNextPaid.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -159,13 +164,14 @@ public class SearchActivity extends BaseActivity {
 	     }); 
 		
 		
+		
 		updateButtons();
 	}
 	
 	public void updateButtons()
 	{
 		///FREE BUTTONS///
-		Button buttonPrevFree = (Button) findViewById(R.id.ButtonPrevFree);
+		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
 		if(pageFree<=0)
 			buttonPrevFree.setEnabled(false);
 		else
@@ -173,12 +179,56 @@ public class SearchActivity extends BaseActivity {
 		
 		
 		///PAID BUTTONS///
-		Button buttonPrevPaid = (Button) findViewById(R.id.ButtonPrevPaid);
+		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
 		if(pagePaid<=0)
 			buttonPrevPaid.setEnabled(false);
 		else
 			buttonPrevPaid.setEnabled(true);
 	}
+	
+	
+	
+	private class SearchSegmentedAdapter extends SegmentedAdapter {
+		 
+        public boolean mReverse = false;
+ 
+        @Override
+        public View getView(int position, ViewGroup parent) {            
+            if(position==0)
+            {
+            	return mViewFree;
+            }
+            else
+            {
+            	return mViewPaid;
+            }
+        }
+ 
+        @Override
+        public int getCount() {
+            return 2;
+        }
+ 
+        @Override
+        public String getSegmentTitle(int position) {
+        	String more="";
+            switch (mReverse ? ((getCount() - 1) - position) : position) {
+                case 0:
+                	if(appIdsFree.size()==10)
+                		more="+";
+                    return getString(R.string.categories_free)+" ("+appIdsFree.size()+more+")";
+                case 1:
+                	if(appIdsPaid.size()==10)
+                		more="+";
+                    return getString(R.string.categories_paid)+" ("+appIdsPaid.size()+more+")";
+            }
+ 
+            return null;
+        }
+    }
+	
+	
+	
 	
 	public void LoadInfos()
 	{
@@ -234,7 +284,7 @@ public class SearchActivity extends BaseActivity {
 				  ratings.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) findViewById(R.id.ListViewAppsFree);
+			ListView listRecommended = (ListView) mViewFree.findViewById(R.id.ListViewApps);
 			listRecommended.setAdapter(new AppsListAdapter(SearchActivity.this,names,icons,ratings,prices));
 			
 			listRecommended.setOnItemClickListener(new OnItemClickListener() {
@@ -257,13 +307,11 @@ public class SearchActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
-    		TextView title = (TextView) mTabHost.getTabWidget().getChildAt(FREE).findViewById(android.R.id.title);
-    		if(appIdsFree.size()<10)
-    			title.setText(SearchActivity.this.getText(R.string.categories_free)+" ("+appIdsFree.size()+")");
-    		else
-    			title.setText(SearchActivity.this.getText(R.string.categories_free)+" ("+appIdsFree.size()+"+)");
-    		
     		mProgress.dismiss();
+    		
+    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+    		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
+            segmentedHost.setAdapter(mAdapter);
     	}
     };
 
@@ -304,7 +352,7 @@ public class SearchActivity extends BaseActivity {
 				  ratings.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) findViewById(R.id.ListViewAppsPaid);
+			ListView listRecommended = (ListView) mViewPaid.findViewById(R.id.ListViewApps);
 			listRecommended.setAdapter(new AppsListAdapter(SearchActivity.this,names,icons,ratings,prices));
 			
 			listRecommended.setOnItemClickListener(new OnItemClickListener() {
@@ -326,13 +374,11 @@ public class SearchActivity extends BaseActivity {
     		}
     		
     		
-    		TextView title = (TextView) mTabHost.getTabWidget().getChildAt(PAID).findViewById(android.R.id.title);
-    		if(appIdsPaid.size()<10)
-    			title.setText(SearchActivity.this.getText(R.string.categories_paid)+" ("+appIdsPaid.size()+")");
-    		else
-    			title.setText(SearchActivity.this.getText(R.string.categories_paid)+" ("+appIdsPaid.size()+"+)");
-    		
     		mProgress.dismiss();
+    		
+    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+    		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
+            segmentedHost.setAdapter(mAdapter);
     	}
     };
     

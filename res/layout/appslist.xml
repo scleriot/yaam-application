@@ -3,10 +3,11 @@
     android:orientation="horizontal"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:background="#FFFFFF"
+    android:background="#fbf8f4"
     >
     
-<ImageView android:id="@+id/ImageViewIcon" android:layout_width="60px" android:layout_height="70px"
+<greendroid.widget.AsyncImageView
+		android:id="@+id/ImageViewIcon" android:layout_width="60px" android:layout_height="70px"
 		android:gravity="center"
 	/>
 	
@@ -22,7 +23,7 @@
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content" 
 	    android:textStyle="bold"
-	    android:textColor="#000000"
+	    android:textColor="#b35400"
 	    android:textSize="15sp"
 	    android:ellipsize="end"
 	    android:singleLine="true"

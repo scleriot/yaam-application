@@ -18,29 +18,20 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
+import greendroid.widget.AsyncImageView;
+
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Stack;
 
-import android.app.Activity;
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
-import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -50,13 +41,12 @@ public class AppsListAdapter extends BaseAdapter{
 	List<Float> ratings=new ArrayList<Float>();
 	List<Float> prices=new ArrayList<Float>();
 	
-	Map<Integer,Drawable> iconsDrawable=new HashMap<Integer,Drawable>();
-	Map<Integer,ImageView> iconsViews=new HashMap<Integer,ImageView>();
+	Map<Integer,AsyncImageView> iconsViews=new HashMap<Integer,AsyncImageView>();
 	
 	private LayoutInflater mInflater;
 
 	//DrawableManager manager;
-	ImageLoader imageLoader;
+	//ImageLoader imageLoader;
 	
 	 public AppsListAdapter(Context context,List<String> names,List<String> icons,List<Float> listRatings,List<Float> listPrices) {
 		 mInflater = LayoutInflater.from(context);
@@ -66,7 +56,7 @@ public class AppsListAdapter extends BaseAdapter{
 		 prices=listPrices;
 		 
 		 //manager=new DrawableManager();
-		 imageLoader=new ImageLoader(context);
+		 //imageLoader=new ImageLoader(context);
 	 }
 	
 	public int getCount() {
@@ -87,7 +77,7 @@ public class AppsListAdapter extends BaseAdapter{
 		 convertView = mInflater.inflate(R.layout.appslist, null);
 		 holder = new ViewHolder();
 		 holder.textAppName = (TextView) convertView.findViewById(R.id.TextViewName);
-		 holder.iconView = (ImageView) convertView.findViewById(R.id.ImageViewIcon);
+		 holder.iconView = (AsyncImageView) convertView.findViewById(R.id.ImageViewIcon);
 		 
 		 
 		 
@@ -104,8 +94,10 @@ public class AppsListAdapter extends BaseAdapter{
 		 
 		 holder.textAppName.setText(appName.get(position)+" "+price);
 		 
-		 holder.iconView.setTag(iconUrl.get(position));
-		 imageLoader.DisplayImage(iconUrl.get(position), holder.iconView);
+		 //holder.iconView.setTag(iconUrl.get(position));
+		 holder.iconView.setDefaultImageResource(R.drawable.defaultappicon);
+		 holder.iconView.setUrl(iconUrl.get(position));
+		 //imageLoader.DisplayImage(iconUrl.get(position), holder.iconView);
 		 
 		 
 		 
@@ -123,7 +115,7 @@ public class AppsListAdapter extends BaseAdapter{
 
 	static class ViewHolder {
 		 TextView textAppName;
-		 ImageView iconView;
+		 AsyncImageView iconView;
 		 }
 
 	
@@ -147,7 +139,7 @@ public class AppsListAdapter extends BaseAdapter{
 	    }
 	}
 	
-	public class ImageLoader {
+	/*public class ImageLoader {
 	    
 	    //the simplest in-memory cache implementation. This should be replaced with something like SoftReference or BitmapOptions.inPurgeable(since 1.6)
 	    private HashMap<String, Bitmap> cache=new HashMap<String, Bitmap>();
@@ -343,6 +335,6 @@ public class AppsListAdapter extends BaseAdapter{
 	            f.delete();
 	    }
 
-	}
+	}*/
 
 }

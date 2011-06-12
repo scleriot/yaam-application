@@ -18,6 +18,7 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.widget.AsyncImageView;
 import greendroid.widget.SegmentedAdapter;
 import greendroid.widget.SegmentedHost;
 
@@ -50,6 +51,7 @@ import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.ResolveInfo;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -65,7 +67,6 @@ import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
@@ -390,7 +391,7 @@ public class ShowAppActivity extends BaseActivity {
 			  //TextView nameApp=(TextView) findViewById(R.id.nameApp);
         	  TextView authorApp=(TextView) findViewById(R.id.authorApp);
 			  WebView descriptionApp=(WebView) mView.findViewById(R.id.descriptionApp);
-			  ImageView iconApp=(ImageView) findViewById(R.id.IconApp);
+			  AsyncImageView iconApp=(AsyncImageView) findViewById(R.id.IconApp);
 			  
 			  Button buttonDL=(Button) mView.findViewById(R.id.ButtonDownload);
 			  Button buttonUninstall=(Button) mView.findViewById(R.id.ButtonUninstall);
@@ -407,11 +408,13 @@ public class ShowAppActivity extends BaseActivity {
 			  descriptionApp.getSettings().setPluginsEnabled(true);
 			  
 			  descriptionApp.setWebViewClient(new WebViewClientScreens());
+			  descriptionApp.setBackgroundColor(Color.parseColor("#fbf8f4"));
 			  
+			  iconApp.setDefaultImageResource(R.drawable.defaultappicon);
 			  if(icon!="")
-  	        {
-		    	    iconApp.setImageBitmap(Tools.loadImageFromUrl(icon));
-  	        }
+	  	      {
+				  iconApp.setUrl(icon);
+	  	      }
 			  
 			  
 			float rate=Float.valueOf(rating);

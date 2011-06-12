@@ -13,10 +13,13 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
     style="@style/Title"
+    android:paddingTop="2dp"
+	android:paddingBottom="0dp"
     >
-			<ImageView android:id="@+id/IconApp" android:layout_gravity="center" 
-				android:layout_width="80px" 
-				android:layout_height="80px"
+			<greendroid.widget.AsyncImageView
+				android:id="@+id/IconApp" android:layout_gravity="center" 
+				android:layout_width="50dp" 
+				android:layout_height="50dp"
 			/>  
 		
 			<LinearLayout
@@ -32,6 +35,8 @@
 					style="@style/Title"
 				    android:layout_width="wrap_content"
 				    android:layout_height="wrap_content"
+				    android:paddingTop="0dp"
+				    android:paddingBottom="0dp"
 				    android:singleLine="true"
 				    android:ellipsize="marquee"
 				    android:textSize="13sp"/>
@@ -40,7 +45,7 @@
 			    android:orientation="horizontal"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
-			    android:paddingLeft="10px"
+			    android:paddingLeft="10dp"
 			    >	    
 						<RatingBar android:id="@+id/ratingbar" 
 							android:layout_width="wrap_content"

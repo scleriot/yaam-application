@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.widget.SegmentedAdapter;
+import greendroid.widget.SegmentedHost;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -46,15 +49,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 
 public class UpdatesActivity extends BaseActivity {
 	List<Integer> appIds=new ArrayList<Integer>();
@@ -63,39 +66,34 @@ public class UpdatesActivity extends BaseActivity {
 	
 	private ProgressDialog mProgress;
 	
+	private View mView;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setActionBarContentView(R.layout.categoryscreen);
 		
 		super.onCreate(savedInstanceState);
-				
-		TabHost mTabHost = (TabHost) this.findViewById(R.id.tabhost);
-		mTabHost.setup();
-		
-		TabSpec tab1=mTabHost.newTabSpec("tab_free").setIndicator("").setContent(R.id.LinearLayoutPaid);
-        mTabHost.addTab(tab1);
-        
-        TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator("").setContent(R.id.LinearLayoutFree);
-        mTabHost.addTab(tab2);
-		
-        mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 0;
-        mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 0;
 		
         getActionBar().setTitle(getText(R.string.updates_menu)+" ("+getText(R.string.top)+")".toString());
 		
-		Button buttonPrev = (Button) findViewById(R.id.ButtonPrevPaid);
-		Button buttonNext = (Button) findViewById(R.id.ButtonNextPaid);
-		Button buttonPrev2 = (Button) findViewById(R.id.ButtonPrevFree);
-		Button buttonNext2 = (Button) findViewById(R.id.ButtonNextFree);
+        LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+		mView=inflater.inflate(R.layout.category_list, null, false);
+		
+		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+		 
+		UpdatesSegmentedAdapter mAdapter = new UpdatesSegmentedAdapter();
+        segmentedHost.setAdapter(mAdapter);
+        
+        
+		Button buttonPrev = (Button) mView.findViewById(R.id.ButtonPrev);
+		Button buttonNext = (Button) mView.findViewById(R.id.ButtonNext);
 		
 		buttonPrev.setVisibility(View.GONE);
 		buttonNext.setVisibility(View.GONE);
-		buttonPrev2.setVisibility(View.GONE);
-		buttonNext2.setVisibility(View.GONE);
 		
 		//LoadInfos();
 	}
-	
+
 	@Override
 	protected void onResume()
 	{
@@ -110,6 +108,36 @@ public class UpdatesActivity extends BaseActivity {
         
         LoadInfos();
 	}
+	
+	
+	
+	private class UpdatesSegmentedAdapter extends SegmentedAdapter {
+		 
+        public boolean mReverse = false;
+ 
+        @Override
+        public View getView(int position, ViewGroup parent) {            
+            return mView;
+        }
+ 
+        @Override
+        public int getCount() {
+            return 1;
+        }
+ 
+        @Override
+        public String getSegmentTitle(int position) {
+ 
+            switch (mReverse ? ((getCount() - 1) - position) : position) {
+                case 0:
+                    return getString(R.string.updates_menu)+" : "+appIds.size();
+            }
+ 
+            return null;
+        }
+    }
+	
+	
 	
 	
 	public void LoadInfos()
@@ -168,7 +196,7 @@ public class UpdatesActivity extends BaseActivity {
 				  }
 			  }
 			
-			ListView listRecommended = (ListView) findViewById(R.id.ListViewAppsPaid);
+			ListView listRecommended = (ListView) mView.findViewById(R.id.ListViewApps);
 			listRecommended.setAdapter(new AppsListAdapter(UpdatesActivity.this,names,icons,ratings,prices));
 			
 			listRecommended.setOnItemClickListener(new OnItemClickListener() {
@@ -190,6 +218,10 @@ public class UpdatesActivity extends BaseActivity {
     		}
     		
     		mProgress.dismiss();
+    		
+    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+    		UpdatesSegmentedAdapter mAdapter = new UpdatesSegmentedAdapter();
+            segmentedHost.setAdapter(mAdapter);
     	}
     };
     
@@ -251,5 +283,4 @@ public class UpdatesActivity extends BaseActivity {
         }
         return false;
     }
-    
 }

@@ -58,7 +58,7 @@ public class LoginActivity extends Activity{
         Tools.createYAAMDir();
         
         SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
-        if(pref.getBoolean("connected1", false))
+        if(pref.getBoolean("connected2", false))
         {
         	Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
             startActivity(intent);
@@ -133,7 +133,7 @@ public class LoginActivity extends Activity{
   				
     			
   				Editor editor=pref.edit();
-  				editor.putBoolean("connected1", true);
+  				editor.putBoolean("connected2", true);
   				editor.putString("username", editUsername.getText().toString());
   				editor.putString("password", Tools.sha1("yaamprotection"+editPassword.getText().toString()+"echoyaamemee"));
   				editor.putString("terminal", terminal);
