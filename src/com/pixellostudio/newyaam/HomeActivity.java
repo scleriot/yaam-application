@@ -18,6 +18,10 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.widget.ActionBar.Type;
+import greendroid.widget.SegmentedBar;
+import greendroid.widget.SegmentedBar.OnSegmentChangeListener;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
@@ -42,11 +46,9 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class HomeActivity extends BaseActivity{
@@ -55,49 +57,12 @@ public class HomeActivity extends BaseActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setActionBarContentView(R.layout.homescreen);
+		getActionBar().setType(Type.Empty);
+		getActionBar().setTitle(getText(R.string.yaammarket));
+        
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.homescreen);
-        		
-		DisplayMetrics dm = new DisplayMetrics(); 
-        getWindowManager().getDefaultDisplay().getMetrics(dm); 
-        int width = dm.widthPixels;
-        
-		Button buttonApps = (Button) findViewById(R.id.ButtonApps);
-		buttonApps.setWidth(width/3);
-		buttonApps.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent i = new Intent(HomeActivity.this, CategoriesActivity.class);
-            	Bundle objetbunble = new Bundle();
-                objetbunble.putInt("game",0);
-                i.putExtras(objetbunble );
-                startActivity(i);
-            }
-	    });
-		
-		Button buttonGames = (Button) findViewById(R.id.ButtonGames);
-		buttonGames.setWidth(width/3);
-		buttonGames.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	Intent i = new Intent(HomeActivity.this, CategoriesActivity.class);
-            	Bundle objetbunble = new Bundle();
-                objetbunble.putInt("game",1);
-                i.putExtras(objetbunble );
-                startActivity(i);
-            }
-	    });
-		
-		Button buttonUpdates = (Button) findViewById(R.id.ButtonUpdates);
-		buttonUpdates.setWidth(width/3);
-		buttonUpdates.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-    			Intent i = new Intent(HomeActivity.this, UpdatesActivity.class);
-                startActivity(i);
-            }
-	    });
-		
-		
-		//Tools.queryWeb(Functions.getHost(getApplicationContext())+"/yaamUpdate.php", yaamUpdateHandler);
 		
 		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
                 this.getText(R.string.loadingtext), true, false);
@@ -134,6 +99,48 @@ public class HomeActivity extends BaseActivity{
     	}
 		
 	}
+	
+	@Override
+	public void onResume()
+	{
+		SegmentedBar segmentedBar = (SegmentedBar) findViewById(R.id.segmentedBar);
+		
+		segmentedBar.removeAllViews();
+		
+		segmentedBar.addSegment(getText(R.string.applications_button).toString());
+		segmentedBar.addSegment(getText(R.string.games_button).toString());
+		segmentedBar.addSegment(getText(R.string.updates_button).toString());
+		
+		segmentedBar.setOnSegmentChangeListener(new OnSegmentChangeListener(){
+			@Override
+			public void onSegmentChange(int index, boolean clicked) {
+				if(index==0 && clicked)
+				{
+					Intent i = new Intent(HomeActivity.this, CategoriesActivity.class);
+	            	Bundle objetbunble = new Bundle();
+	                objetbunble.putInt("game",0);
+	                i.putExtras(objetbunble );
+	                startActivity(i);
+				}
+				else if(index==1 && clicked)
+				{
+					Intent i = new Intent(HomeActivity.this, CategoriesActivity.class);
+	            	Bundle objetbunble = new Bundle();
+	                objetbunble.putInt("game",1);
+	                i.putExtras(objetbunble );
+	                startActivity(i);
+				}
+				else if(index==2 && clicked)
+				{
+					Intent i = new Intent(HomeActivity.this, UpdatesActivity.class);
+	                startActivity(i);
+				}
+			}
+		});
+		
+		super.onResume();
+	}
+	
 	
 	public Handler parser=new Handler()
     {

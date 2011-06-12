@@ -18,6 +18,9 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.widget.SegmentedAdapter;
+import greendroid.widget.SegmentedHost;
+
 import java.io.ByteArrayInputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
@@ -54,10 +57,10 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.Display;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -67,8 +70,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RatingBar;
 import android.widget.SimpleAdapter;
-import android.widget.TabHost;
-import android.widget.TabHost.TabSpec;
 import android.widget.TextView;
 
 import com.paypal.android.MEP.CheckoutButton;
@@ -91,12 +92,14 @@ public class ShowAppActivity extends BaseActivity {
 	
 	private Dialog paymentDialog;
 	
+	private View mView,mView2;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
-		requestWindowFeature(Window.FEATURE_NO_TITLE);  
-		setContentView(R.layout.showappscreen);
+		setActionBarContentView(R.layout.showappscreen);
+		//getActionBar().setTitle(getText(R.string.yaammarket));
 		
+		super.onCreate(savedInstanceState);		
 		
 		/*if (PayPal.getInstance().isLibraryInitialized()) 
         	ppObj = PayPal.initWithAppID(this.getBaseContext(), "APP-9VH00888N66449701", PayPal.ENV_LIVE);
@@ -111,7 +114,7 @@ public class ShowAppActivity extends BaseActivity {
 		
 		
 		
-		TabHost mTabHost = (TabHost) this.findViewById(R.id.tabhost);
+		/*TabHost mTabHost = (TabHost) this.findViewById(R.id.tabhost);
 		mTabHost.setup();
 		
         TabSpec tab1=mTabHost.newTabSpec("tab_infos").setIndicator(getText(R.string.app_infos).toString()).setContent(R.id.LinearLayoutInfos);
@@ -121,12 +124,23 @@ public class ShowAppActivity extends BaseActivity {
         mTabHost.addTab(tab2);
         
         mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 40;
-        mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;
+        mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 40;*/
         
+		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
+		mView=inflater.inflate(R.layout.showapp_infos, null, false);
+        mView2=inflater.inflate(R.layout.showapp_comments, null, false);
+		
+		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
+		 
+		AppSegmentedAdapter mAdapter = new AppSegmentedAdapter();
+        segmentedHost.setAdapter(mAdapter);
+
+       
+
         
         Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 		int width = display.getWidth(); 
-		
+
     	Button buttonBuy = (Button) findViewById(R.id.ButtonBuy);
 		buttonBuy.setWidth(width);
 		buttonBuy.setVisibility(View.GONE);
@@ -144,7 +158,7 @@ public class ShowAppActivity extends BaseActivity {
             }
 	    });
 		
-		Button buttonDL = (Button) findViewById(R.id.ButtonDownload);
+		Button buttonDL = (Button) mView.findViewById(R.id.ButtonDownload);
 		buttonDL.setWidth(width);
 		buttonDL.setVisibility(View.GONE);
 	    buttonDL.setOnClickListener(new View.OnClickListener() {
@@ -154,7 +168,7 @@ public class ShowAppActivity extends BaseActivity {
             }
 	     }); 
 	    
-	    Button buttonUninstall = (Button) findViewById(R.id.ButtonUninstall);
+	    Button buttonUninstall = (Button) mView.findViewById(R.id.ButtonUninstall);
 	    buttonUninstall.setWidth(width/2);
 	    buttonUninstall.setVisibility(View.GONE);
 	    buttonUninstall.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_delete, 0, 0, 0);
@@ -166,7 +180,7 @@ public class ShowAppActivity extends BaseActivity {
 	                    }
 	            	});
 	    
-	    Button buttonOpen = (Button) findViewById(R.id.ButtonOpen);
+	    Button buttonOpen = (Button) mView.findViewById(R.id.ButtonOpen);
 	    buttonOpen.setWidth(width/2);
 	    buttonOpen.setVisibility(View.GONE);
 	    buttonOpen.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_more, 0, 0, 0);
@@ -200,7 +214,7 @@ public class ShowAppActivity extends BaseActivity {
     	
 	    
 	    
-	    Button buttonCommentAndRate = (Button) findViewById(R.id.ButtonComment);
+	    Button buttonCommentAndRate = (Button) mView2.findViewById(R.id.ButtonComment);
 	    buttonCommentAndRate.setWidth(width);
 	    buttonCommentAndRate.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_edit, 0, 0, 0);
 	    buttonCommentAndRate.setOnClickListener(new View.OnClickListener() {
@@ -254,6 +268,43 @@ public class ShowAppActivity extends BaseActivity {
 		
 		super.onResume();
 	}
+	
+	
+	private class AppSegmentedAdapter extends SegmentedAdapter {
+		 
+        public boolean mReverse = false;
+ 
+        @Override
+        public View getView(int position, ViewGroup parent) {            
+            if(position==0)
+            {
+            	return mView;
+            }
+            else
+            {
+            	return mView2;
+            }
+        }
+ 
+        @Override
+        public int getCount() {
+            return 2;
+        }
+ 
+        @Override
+        public String getSegmentTitle(int position) {
+ 
+            switch (mReverse ? ((getCount() - 1) - position) : position) {
+                case 0:
+                    return "Informations";
+                case 1:
+                    return "Comments";
+            }
+ 
+            return null;
+        }
+    }
+	
 	
 	
 	public void LoadInfos()
@@ -336,20 +387,21 @@ public class ShowAppActivity extends BaseActivity {
 				  description+="<br /><br /><b>"+getBaseContext().getText(R.string.applicationcontainswidget)+"</b>";
 			  }
 			
-			  TextView nameApp=(TextView) findViewById(R.id.nameApp);
+			  //TextView nameApp=(TextView) findViewById(R.id.nameApp);
         	  TextView authorApp=(TextView) findViewById(R.id.authorApp);
-			  WebView descriptionApp=(WebView) findViewById(R.id.descriptionApp);
+			  WebView descriptionApp=(WebView) mView.findViewById(R.id.descriptionApp);
 			  ImageView iconApp=(ImageView) findViewById(R.id.IconApp);
 			  
-			  Button buttonDL=(Button) findViewById(R.id.ButtonDownload);
-			  Button buttonUninstall=(Button) findViewById(R.id.ButtonUninstall);
-			  Button buttonBuy=(Button) findViewById(R.id.ButtonBuy);
-			  Button buttonOpen=(Button) findViewById(R.id.ButtonOpen);
+			  Button buttonDL=(Button) mView.findViewById(R.id.ButtonDownload);
+			  Button buttonUninstall=(Button) mView.findViewById(R.id.ButtonUninstall);
+			  Button buttonBuy=(Button) mView.findViewById(R.id.ButtonBuy);
+			  Button buttonOpen=(Button) mView.findViewById(R.id.ButtonOpen);
 			  
 			  buttonDL.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_add, 0, 0, 0);
 			  buttonBuy.setCompoundDrawablesWithIntrinsicBounds(android.R.drawable.ic_menu_add, 0, 0, 0);
 			
-			  nameApp.setText(name);
+			  //nameApp.setText("");
+			  getActionBar().setTitle(name);
 			  authorApp.setText(getBaseContext().getText(R.string.by)+" "+devname);
 			  descriptionApp.loadDataWithBaseURL(null,description,"text/html", "UTF-8","about:blank");
 			  descriptionApp.getSettings().setPluginsEnabled(true);
@@ -369,6 +421,7 @@ public class ShowAppActivity extends BaseActivity {
 				 ((RatingBar) findViewById(R.id.ratingbar)).setRating(rate);
 	        	
 	        	
+			
 	        	
 
 	    		
@@ -398,7 +451,7 @@ public class ShowAppActivity extends BaseActivity {
 			
 				ListCommentsAdapter adapterComments = new ListCommentsAdapter(getBaseContext(), mylist, R.layout.commentslistlayout,
 						new String[] {"name", "comment"},new int[] {R.id.nameCommentsList, R.id.commentCommentsList});
-				ListView listComments=(ListView) findViewById(R.id.listViewComments);
+				ListView listComments=(ListView) mView2.findViewById(R.id.listViewComments);
 				listComments.setAdapter(adapterComments);
 			
 			
@@ -406,7 +459,7 @@ public class ShowAppActivity extends BaseActivity {
 	        Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
 			int width = display.getWidth(); 
 			
-	        Button buttonCommentAndRate = (Button) findViewById(R.id.ButtonComment);
+	        Button buttonCommentAndRate = (Button) mView2.findViewById(R.id.ButtonComment);
 	        buttonDL.setWidth(width);
 	        
 			if(isAppInstalled())

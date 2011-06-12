@@ -68,10 +68,10 @@ public class CategoryActivity extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setActionBarContentView(R.layout.categoryscreen);
+		
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.categoryscreen);
-		
+				
 		mTabHost = (TabHost) this.findViewById(R.id.tabhost);
 		mTabHost.setup();
 		
@@ -84,8 +84,7 @@ public class CategoryActivity extends BaseActivity {
         mTabHost.getTabWidget().getChildAt(PAID).getLayoutParams().height = 40;
         mTabHost.getTabWidget().getChildAt(FREE).getLayoutParams().height = 40;
 		
-        TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-		textCatName.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
+        getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
 		
 		
 		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
@@ -341,8 +340,7 @@ public class CategoryActivity extends BaseActivity {
         switch (item.getItemId()) {
         case 1: //Top
         	order="top";
-        	TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
+        	getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
     		pageFree=0;
     		pagePaid=0;
     		updateButtons();
@@ -350,8 +348,7 @@ public class CategoryActivity extends BaseActivity {
             return true;
         case 2: //Last
         	order="last";
-        	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName2.setText(getIntent().getExtras().getString("name")+" ("+getText(R.string.last).toString()+")");
+        	getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.last).toString()+")");
     		pageFree=0;
     		pagePaid=0;
     		updateButtons();

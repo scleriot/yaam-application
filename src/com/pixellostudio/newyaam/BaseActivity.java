@@ -18,9 +18,12 @@
  ******************************************************************************/
 package com.pixellostudio.newyaam;
 
+import greendroid.app.GDActivity;
+import greendroid.widget.ActionBarItem;
+import greendroid.widget.NormalActionBarItem;
+
 import java.util.Calendar;
 
-import android.app.Activity;
 import android.app.AlarmManager;
 import android.app.Notification;
 import android.app.NotificationManager;
@@ -37,13 +40,17 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.Window;
 
-public class BaseActivity extends Activity {
+public class BaseActivity extends GDActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
+		getActionBar().addItem(getActionBar()
+                .newActionBarItem(NormalActionBarItem.class)
+                .setDrawable(R.drawable.gd_action_bar_search)
+                .setContentDescription("List"), R.id.actionbar_search);
+		
 		Tools.createYAAMDir();
 		
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
@@ -63,10 +70,22 @@ public class BaseActivity extends Activity {
         am.set(AlarmManager.RTC_WAKEUP, cal.getTimeInMillis(), sender);
         
         Tools.queryWeb(Functions.getHost(getApplicationContext())+"/yaamupdate.php", yaamUpdateHandler);
-        
-		requestWindowFeature(Window.FEATURE_NO_TITLE);  
-	}
+   	}
 	
+	
+	@Override
+    public boolean onHandleActionBarItemClick(ActionBarItem item, int position) {
+
+        switch (item.getItemId()) {
+            case R.id.actionbar_search:
+            	this.startSearch("", false, null, false);
+                break;
+            default:
+                return super.onHandleActionBarItemClick(item, position);
+        }
+
+        return true;
+    }
 	
 	public Handler yaamUpdateHandler=new Handler()
     {

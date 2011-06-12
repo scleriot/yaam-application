@@ -75,10 +75,10 @@ public class SearchActivity extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setActionBarContentView(R.layout.categoryscreen);
+		
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.categoryscreen);
-		
+				
 		mTabHost = (TabHost) this.findViewById(R.id.tabhost);
 		mTabHost.setup();
 		
@@ -91,8 +91,7 @@ public class SearchActivity extends BaseActivity {
         mTabHost.getTabWidget().getChildAt(PAID).getLayoutParams().height = 40;
         mTabHost.getTabWidget().getChildAt(FREE).getLayoutParams().height = 40;
 		
-        TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-		textCatName.setText(getBaseContext().getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
+        getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
 		
 		
 		Intent intent = getIntent();
@@ -356,8 +355,7 @@ public class SearchActivity extends BaseActivity {
         switch (item.getItemId()) {
         case 1: //Top
         	order="top";
-        	TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName.setText(getBaseContext().getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
+        	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
     		pageFree=0;
     		pagePaid=0;
     		updateButtons();
@@ -365,8 +363,7 @@ public class SearchActivity extends BaseActivity {
             return true;
         case 2: //Last
         	order="last";
-        	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName2.setText(getBaseContext().getText(R.string.search_results)+" ("+getText(R.string.last).toString()+")");
+        	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.last).toString()+")");
     		pageFree=0;
     		pagePaid=0;
     		updateButtons();

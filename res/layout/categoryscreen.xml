@@ -7,14 +7,6 @@
     style="@style/Blue"
     >
 
-
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    style="@style/Title"
-    android:paddingTop="5px"
-    android:id="@+id/TextViewCategoryName"/>
-
 <TabHost
     android:id="@+id/tabhost"
     android:layout_width="fill_parent"

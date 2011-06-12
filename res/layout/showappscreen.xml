@@ -1,133 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<TabHost xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/tabhost"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    style="@style/Blue">
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent">
-        <TabWidget
-            android:id="@android:id/tabs"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content" />
-        <FrameLayout
-            android:id="@android:id/tabcontent"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent">
-            
-            <LinearLayout
-			    android:orientation="vertical"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent"
-			    android:id="@+id/LinearLayoutInfos"
-			    >
-            	<ScrollView
-					android:layout_height="fill_parent" android:layout_weight="1" android:layout_width="fill_parent" android:background="#000000"
-					>
-					
-				<LinearLayout
-			    android:orientation="vertical"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent"
-			    android:layout_margin="5px"
-			    android:id="@+id/LinearLayoutApp"
-			    >
-				
-					<LinearLayout
-				    android:orientation="horizontal"
-				    android:layout_width="fill_parent"
-				    android:layout_height="wrap_content"
-				    style="@style/Title"
-				    >
-							<ImageView android:id="@+id/IconApp" android:layout_gravity="center" android:layout_width="48px" android:layout_height="48px"
-							/>  
-						
-							<LinearLayout
-						    android:orientation="vertical"
-						    android:layout_width="fill_parent"
-						    android:layout_height="wrap_content"
-						    >
-								<TextView  
-								    style="@style/Title"
-									android:id="@+id/nameApp"/>
-								<TextView  
-									android:id="@+id/authorApp"
-									style="@style/Title"
-								    android:layout_width="wrap_content"
-								    android:layout_height="wrap_content"
-								    android:textSize="13sp"/>
-								
-								<LinearLayout
-							    android:orientation="horizontal"
-							    android:layout_width="fill_parent"
-							    android:layout_height="wrap_content"
-							    android:paddingLeft="10px"
-							    >	    
-										<RatingBar android:id="@+id/ratingbar" 
-											android:layout_width="wrap_content"
-											android:layout_height="wrap_content" 
-											android:numStars="5"
-											android:isIndicator="true"
-											style="?android:attr/ratingBarStyleSmall" /> 
-							</LinearLayout>
-					</LinearLayout>
-				</LinearLayout>
-				
-				<WebView  
-					android:id="@+id/descriptionApp"
-				    android:layout_width="fill_parent"
-				    android:layout_height="wrap_content"
-				    android:text="description"
-				    android:layout_marginTop="10px"
-				    />
+<LinearLayout
+   xmlns:greendroid="http://schemas.android.com/apk/res/com.pixellostudio.newyaam"
+   xmlns:android="http://schemas.android.com/apk/res/android"
+   android:orientation="vertical"
+   android:layout_width="fill_parent"
+   android:layout_height="fill_parent"
+   >
 
-				</LinearLayout>
-				
-				</ScrollView>
-				
+<LinearLayout
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    style="@style/Title"
+    >
+			<ImageView android:id="@+id/IconApp" android:layout_gravity="center" 
+				android:layout_width="80px" 
+				android:layout_height="80px"
+			/>  
+		
+			<LinearLayout
+		    android:orientation="vertical"
+		    android:layout_width="fill_parent"
+		    android:layout_height="wrap_content"
+		    >
+				<!-- <TextView  
+				    style="@style/Title"
+					android:id="@+id/nameApp"/>-->
+				<TextView  
+					android:id="@+id/authorApp"
+					style="@style/Title"
+				    android:layout_width="wrap_content"
+				    android:layout_height="wrap_content"
+				    android:textSize="13sp"/>
 				
 				<LinearLayout
 			    android:orientation="horizontal"
 			    android:layout_width="fill_parent"
 			    android:layout_height="wrap_content"
-			    android:layout_weight="0"
-			    android:layout_marginTop="5px"
-			    >
-			    	<Button android:layout_gravity="center" android:text="@string/open" android:id="@+id/ButtonOpen" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	
-			    	 
-					<Button android:layout_gravity="center" android:text="Download &amp; Install/Update !" android:id="@+id/ButtonDownload" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-					
-					<Button android:layout_gravity="center" android:text="Buy or Update" android:id="@+id/ButtonBuy" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-					
-					<Button android:layout_gravity="center" android:text="@string/uninstall" android:id="@+id/ButtonUninstall" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	 
-				</LinearLayout>
-				
-				</LinearLayout>
-				
-				
-				<LinearLayout
-			    
-			    android:orientation="vertical"
-			    android:layout_width="fill_parent"
-			    android:layout_height="fill_parent"
-			    android:id="@+id/LinearLayoutComments"
-			    >
-					<ListView android:layout_weight="1" android:layout_height="wrap_content" android:id="@+id/listViewComments" android:layout_width="fill_parent" android:layout_marginTop="5px" android:cacheColorHint="#00000000"></ListView>
-					
-					<LinearLayout
-				    android:orientation="horizontal"
-				    android:layout_width="fill_parent"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="0"
-				    android:layout_marginTop="5px"
-				    >
-						<Button android:layout_gravity="center" android:text="@string/app_comment" android:id="@+id/ButtonComment" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-					</LinearLayout>
-				</LinearLayout>
-            
-        </FrameLayout>
-    </LinearLayout>
-</TabHost>
+			    android:paddingLeft="10px"
+			    >	    
+						<RatingBar android:id="@+id/ratingbar" 
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content" 
+							android:numStars="5"
+							android:isIndicator="true"
+							style="?android:attr/ratingBarStyleSmall" /> 
+			</LinearLayout>
+	</LinearLayout>
+</LinearLayout>
+
+<greendroid.widget.SegmentedHost
+    android:id="@+id/segmentedHost"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    greendroid:segmentedBar="@+id/segmentedBar"
+    greendroid:segmentedContentView="@+id/segmentedContentView">
+ 
+    <greendroid.widget.SegmentedBar
+        android:id="@+id/segmentedBar"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" />
+ 
+    <FrameLayout
+        android:id="@+id/segmentedContentView"
+        android:layout_width="fill_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1.0"
+        android:foreground="@drawable/gd_shadow_top" />
+ 
+</greendroid.widget.SegmentedHost>
+
+</LinearLayout>

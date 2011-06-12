@@ -98,7 +98,7 @@ public class AppsListAdapter extends BaseAdapter{
 		 
 		 String price="";
 		 if(prices.get(position)>0)
-			 price="("+prices.get(position)+"â‚¬)";
+			 price="("+prices.get(position)+"Û)";
 		 else
 			 price="(Free)";
 		 
@@ -117,69 +117,6 @@ public class AppsListAdapter extends BaseAdapter{
 			 ((RatingBar) convertView.findViewById(R.id.ratingbar)).setVisibility(View.VISIBLE);
 			 ((RatingBar) convertView.findViewById(R.id.ratingbar)).setRating(rating);
 		 }
-		 
-     	/*if(rating>0)
-     	{
- 	        for(int i=0;i<Math.round(rating);i++)
- 	        {
- 	        	if(i==0)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated1);
- 	        		imageRate.setImageResource(R.drawable.star);
- 	        	}
- 	        	else if(i==1)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated2);
- 	        		imageRate.setImageResource(R.drawable.star);
- 	        	}
- 	        	else if(i==2)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated3);
- 	        		imageRate.setImageResource(R.drawable.star);
- 	        	}
- 	        	else if(i==3)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated4);
- 	        		imageRate.setImageResource(R.drawable.star);
- 	        	}
- 	        	else if(i==4)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated5);
- 	        		imageRate.setImageResource(R.drawable.star);
- 	        	}
- 	        }
- 	        
- 	        for(int i=0;i<(5-Math.round(rating));i++)
- 	        {
- 	        	if(i==0)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated5);
- 	        		imageRate.setImageResource(R.drawable.star_empty);
- 	        	}
- 	        	else if(i==1)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated4);
- 	        		imageRate.setImageResource(R.drawable.star_empty);
- 	        	}
- 	        	else if(i==2)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated3);
- 	        		imageRate.setImageResource(R.drawable.star_empty);
- 	        	}
- 	        	else if(i==3)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated2);
- 	        		imageRate.setImageResource(R.drawable.star_empty);
- 	        	}
- 	        	else if(i==4)
- 	        	{
- 	        		ImageView imageRate = (ImageView)convertView.findViewById(R.id.ImageRated1);
- 	        		imageRate.setImageResource(R.drawable.star_empty);
- 	        	}
- 	        }
- 	 
- 	       
-	 	 }*/
 		 
 		 return convertView;
 	}

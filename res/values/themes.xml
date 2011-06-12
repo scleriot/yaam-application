@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+	<style name="Theme.YAAM" parent="@style/Theme.GreenDroid.NoTitleBar">
+	
+		<item name="gdActionBarTitleColor">@android:color/white</item>
+		<item name="gdActionBarBackground">@drawable/actionbar_gradient</item>
+		<item name="gdActionBarDividerDrawable">@drawable/action_bar_divider</item>
+		<item name="gdActionBarDividerWidth">2px</item>
+		<!--<item name="gdActionBarApplicationDrawable">@drawable/greendroid_application_logo</item>-->
+	
+	</style>
+
+    <style name="Theme.YAAM.TweakedItems" parent="@style/Theme.YAAM">
+        
+        <item name="gdItemViewPreferredHeight">45dp</item>       
+        
+    </style>
+    
+</resources>

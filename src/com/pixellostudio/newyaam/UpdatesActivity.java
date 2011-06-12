@@ -55,7 +55,6 @@ import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
 
 public class UpdatesActivity extends BaseActivity {
 	List<Integer> appIds=new ArrayList<Integer>();
@@ -66,10 +65,10 @@ public class UpdatesActivity extends BaseActivity {
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setActionBarContentView(R.layout.categoryscreen);
+		
 		super.onCreate(savedInstanceState);
-		
-		setContentView(R.layout.categoryscreen);
-		
+				
 		TabHost mTabHost = (TabHost) this.findViewById(R.id.tabhost);
 		mTabHost.setup();
 		
@@ -82,8 +81,7 @@ public class UpdatesActivity extends BaseActivity {
         mTabHost.getTabWidget().getChildAt(0).getLayoutParams().height = 0;
         mTabHost.getTabWidget().getChildAt(1).getLayoutParams().height = 0;
 		
-        TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-		textCatName.setText(getBaseContext().getText(R.string.updates_menu)+" ("+getText(R.string.top)+")".toString());
+        getActionBar().setTitle(getText(R.string.updates_menu)+" ("+getText(R.string.top)+")".toString());
 		
 		Button buttonPrev = (Button) findViewById(R.id.ButtonPrevPaid);
 		Button buttonNext = (Button) findViewById(R.id.ButtonNextPaid);
@@ -225,14 +223,12 @@ public class UpdatesActivity extends BaseActivity {
         switch (item.getItemId()) {
         case 1: //Top
         	order="top";
-        	TextView textCatName = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName.setText(getBaseContext().getText(R.string.updates_button)+" ("+getText(R.string.top)+")".toString());
+        	getActionBar().setTitle(getText(R.string.updates_button)+" ("+getText(R.string.top)+")".toString());
     		LoadInfos();
             return true;
         case 2: //Last
         	order="last";
-        	TextView textCatName2 = (TextView) findViewById(R.id.TextViewCategoryName);
-    		textCatName2.setText(getBaseContext().getText(R.string.updates_button)+" ("+getText(R.string.last).toString()+")");
+        	getActionBar().setTitle(getText(R.string.updates_button)+" ("+getText(R.string.last).toString()+")");
     		LoadInfos();
             return true;
         case 3: //Search

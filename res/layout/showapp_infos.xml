@@ -1,0 +1,51 @@
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:id="@+id/LinearLayoutInfos"
+    >
+			<ScrollView
+				android:layout_height="fill_parent" android:layout_weight="1" 
+				android:layout_width="fill_parent" android:background="#000000"
+				>
+				
+			<LinearLayout
+			   android:orientation="vertical"
+			   android:layout_width="fill_parent"
+			   android:layout_height="fill_parent"
+			   android:layout_margin="5px"
+			   android:id="@+id/LinearLayoutApp"
+			   >
+			
+				
+			
+			<WebView  
+				android:id="@+id/descriptionApp"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:text="description"
+			    android:layout_marginTop="10px"
+			    />
+			
+			</LinearLayout>
+			
+			</ScrollView>
+
+			<LinearLayout
+			    android:orientation="horizontal"
+			    android:layout_width="fill_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_weight="0"
+			    android:layout_marginTop="5px"
+			    >
+			    	<Button android:layout_gravity="center" android:text="@string/open" android:id="@+id/ButtonOpen" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	
+			    	 
+					<Button android:layout_gravity="center" android:text="Download &amp; Install/Update !" android:id="@+id/ButtonDownload" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+					
+					<Button android:layout_gravity="center" android:text="Buy or Update" android:id="@+id/ButtonBuy" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
+					
+					<Button android:layout_gravity="center" android:text="@string/uninstall" android:id="@+id/ButtonUninstall" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	 
+			</LinearLayout>
+				
+</LinearLayout>

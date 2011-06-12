@@ -3,6 +3,6 @@
 <string name="applications_button">Apps</string>
 <string name="games_button">Games</string>
 <string name="updates_button">Updates</string>
-<string name="recommendedapps">Recommended Apps</string>
+<string name="recommendedapps">Selected Apps</string>
 
 </resources>

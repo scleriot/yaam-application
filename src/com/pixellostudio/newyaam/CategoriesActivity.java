@@ -48,9 +48,11 @@ public class CategoriesActivity extends BaseActivity{
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
+		setActionBarContentView(R.layout.categoriesscreen);
+		getActionBar().setTitle(getText(R.string.categories));
+		
 		super.onCreate(savedInstanceState);
 		
-		setContentView(R.layout.categoriesscreen);
 		
 		int game=getIntent().getExtras().getInt("game");
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
