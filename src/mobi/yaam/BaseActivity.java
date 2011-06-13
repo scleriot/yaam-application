@@ -16,7 +16,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with YAAM.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import greendroid.app.GDActivity;
 import greendroid.widget.ActionBarItem;
@@ -95,7 +95,7 @@ public class BaseActivity extends GDActivity {
     		//TODO:String changelog=content.split("/")[1];
     		
     		try {
-				if(Integer.valueOf(updateId)>getPackageManager().getPackageInfo("com.pixellostudio.newyaam",PackageManager.GET_ACTIVITIES|PackageManager.GET_GIDS|PackageManager.GET_CONFIGURATIONS|PackageManager.GET_INSTRUMENTATION|PackageManager.GET_PERMISSIONS|PackageManager.GET_PROVIDERS|PackageManager.GET_RECEIVERS|PackageManager.GET_SERVICES|PackageManager.GET_SIGNATURES).versionCode)
+				if(Integer.valueOf(updateId)>getPackageManager().getPackageInfo("mobi.yaam",PackageManager.GET_ACTIVITIES|PackageManager.GET_GIDS|PackageManager.GET_CONFIGURATIONS|PackageManager.GET_INSTRUMENTATION|PackageManager.GET_PERMISSIONS|PackageManager.GET_PROVIDERS|PackageManager.GET_RECEIVERS|PackageManager.GET_SERVICES|PackageManager.GET_SIGNATURES).versionCode)
 				{
 					int notificationID = 11;
 					NotificationManager notificationManager = (NotificationManager) BaseActivity.this.getSystemService(Context.NOTIFICATION_SERVICE);

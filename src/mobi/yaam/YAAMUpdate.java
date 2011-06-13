@@ -17,7 +17,7 @@
  *     along with YAAM.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
 
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import android.app.Activity;
 import android.content.Intent;

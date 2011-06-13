@@ -1,4 +1,4 @@
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import java.io.BufferedInputStream;
 import java.io.File;

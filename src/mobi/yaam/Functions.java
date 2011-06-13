@@ -16,7 +16,7 @@
  *     You should have received a copy of the GNU General Public License
  *     along with YAAM.  If not, see <http://www.gnu.org/licenses/>.
  ******************************************************************************/
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;

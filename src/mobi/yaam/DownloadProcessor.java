@@ -1,4 +1,4 @@
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import java.io.File;
 import java.io.FileOutputStream;

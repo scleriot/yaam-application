@@ -1,4 +1,4 @@
-package com.pixellostudio.newyaam;
+package mobi.yaam;
 
 import android.os.Handler;
 

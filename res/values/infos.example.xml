@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <resources>
     
-    <string name="ypass">SdvQ0wRLzzGaSkJ</string>
-    <string name="yhost">http://new.yaam.mobi/api</string>
+    <string name="ypass">YOURPASS</string>
+    <string name="yhost">YOURURL</string>
     
 </resources>
