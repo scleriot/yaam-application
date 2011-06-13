@@ -31,7 +31,6 @@ import android.os.Message;
 import android.preference.PreferenceManager;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
@@ -45,12 +44,11 @@ public class CommentActivity extends BaseActivity implements OnRatingBarChangeLi
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState) {
+    	setActionBarContentView(R.layout.commentscreen);
+    	
         super.onCreate(savedInstanceState);
-        requestWindowFeature(Window.FEATURE_NO_TITLE);  
-        
-        setContentView(R.layout.commentscreen);
-        
        
+        getActionBar().setTitle(getText(R.string.addnewcomment));
         
         Button commentButton = (Button) findViewById(R.id.ButtonComment);
         

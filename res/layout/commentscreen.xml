@@ -5,15 +5,6 @@
     android:layout_height="fill_parent"
     style="@style/Blue"
     >
-   
-    
-<TextView  
-    android:layout_width="fill_parent" 
-    android:layout_height="wrap_content" 
-    style="@style/Title"
-    android:text="@string/addnewcomment"
-    
-    />
     
  
 <RatingBar android:id="@+id/ratingbar" 
