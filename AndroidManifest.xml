@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <manifest android:versionCode="9" android:versionName="2.5"
-    package="com.pixellostudio.newyaam" xmlns:android="http://schemas.android.com/apk/res/android"
+    package="mobi.yaam" xmlns:android="http://schemas.android.com/apk/res/android"
     android:installLocation="auto">
     <application android:icon="@drawable/icon" android:label="@string/app_name"
-     android:name=".YAAMApplication"
+     android:name="mobi.yaam.YAAMApplication"
      android:theme="@style/Theme.YAAM">
         <activity android:label="@string/app_name" android:name=".LoginActivity">
             <intent-filter>
@@ -63,8 +63,8 @@
         
         
      
-        <receiver android:name="CheckUpdatesBroadcast" android:process=":remote"/>
-        <activity android:name=".YAAMUpdate"/>
+        <receiver android:name="mobi.yaam.CheckUpdatesBroadcast" android:process=":remote"/>
+        <activity android:name="mobi.yaam.YAAMUpdate"/>
     </application>
     <uses-sdk android:minSdkVersion="4" android:targetSdkVersion="8"/>
     <uses-permission android:name="android.permission.INTERNET"/>
