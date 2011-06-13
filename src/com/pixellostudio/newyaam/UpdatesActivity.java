@@ -56,7 +56,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 
 public class UpdatesActivity extends BaseActivity {
@@ -83,13 +82,6 @@ public class UpdatesActivity extends BaseActivity {
 		 
 		UpdatesSegmentedAdapter mAdapter = new UpdatesSegmentedAdapter();
         segmentedHost.setAdapter(mAdapter);
-        
-        
-		Button buttonPrev = (Button) mView.findViewById(R.id.ButtonPrev);
-		Button buttonNext = (Button) mView.findViewById(R.id.ButtonNext);
-		
-		buttonPrev.setVisibility(View.GONE);
-		buttonNext.setVisibility(View.GONE);
 		
 		//LoadInfos();
 	}

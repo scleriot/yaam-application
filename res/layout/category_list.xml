@@ -11,16 +11,4 @@
 <ListView android:layout_height="wrap_content" android:cacheColorHint="#00000000"
 android:id="@+id/ListViewApps" android:layout_width="fill_parent" android:layout_weight="1" ></ListView>
 
-		<LinearLayout
-				    android:orientation="horizontal"
-				    android:layout_width="fill_parent"
-				    android:layout_height="wrap_content"
-				    android:layout_weight="0"
-				    android:layout_marginTop="5px"
-				    >
-			<Button android:layout_gravity="center" android:text="@string/prev" android:id="@+id/ButtonPrev" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>	
-			    	 
-			<Button android:layout_gravity="center" android:text="@string/next" android:id="@+id/ButtonNext" android:layout_width="wrap_content" android:layout_height="wrap_content"></Button>
-		</LinearLayout>
-
 </LinearLayout>

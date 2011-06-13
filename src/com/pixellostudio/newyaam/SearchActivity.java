@@ -44,16 +44,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -78,6 +77,27 @@ public class SearchActivity extends BaseActivity {
 	
 	private View mViewFree,mViewPaid;
 	
+	//FREE
+	List<String> namesFree=new ArrayList<String>();
+	List<String> iconsFree=new ArrayList<String>();
+	List<Float> ratingsFree=new ArrayList<Float>();
+	List<Float> pricesFree=new ArrayList<Float>();
+	
+	ListView listViewFree;
+	AppsListAdapter adapterFree;
+	
+	//PAID
+	List<String> namesPaid=new ArrayList<String>();
+	List<String> iconsPaid=new ArrayList<String>();
+	List<Float> ratingsPaid=new ArrayList<Float>();
+	List<Float> pricesPaid=new ArrayList<Float>();
+	
+	ListView listViewPaid;
+	AppsListAdapter adapterPaid;
+	
+	
+	boolean firstfree=true, firstpaid=true;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setActionBarContentView(R.layout.categoryscreen);
@@ -88,105 +108,37 @@ public class SearchActivity extends BaseActivity {
         getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
 		
 		
-		Intent intent = getIntent();
-
-	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-			query = intent.getStringExtra(SearchManager.QUERY);
-			//Log.d("YAAM", query);
-			LoadInfos();
-	    }
 		
-	    Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-		int width = display.getWidth(); 
 		
 		
 		LayoutInflater inflater = LayoutInflater.from(getApplicationContext());
 		mViewFree=inflater.inflate(R.layout.category_list, null, false);
         mViewPaid=inflater.inflate(R.layout.category_list, null, false);
 		
+        listViewFree = (ListView) mViewFree.findViewById(R.id.ListViewApps);
+        listViewPaid = (ListView) mViewPaid.findViewById(R.id.ListViewApps);
+        
+        adapterFree=new AppsListAdapter(SearchActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
+		listViewFree.setAdapter(adapterFree);
+		
+		adapterPaid=new AppsListAdapter(SearchActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
+		listViewPaid.setAdapter(adapterPaid);
+        
+        
+        
 		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
 		 
 		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
         segmentedHost.setAdapter(mAdapter);
 		
-		
-		/////FREE BUTTONS//////
-		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
-		//buttonPrevFree.setBackgroundDrawable(this.getResources().getDrawable(android.R.drawable.));
-		buttonPrevFree.setWidth(width/2);
-		buttonPrevFree.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pageFree--;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		Button buttonNextFree = (Button) mViewFree.findViewById(R.id.ButtonNext);
-		buttonNextFree.setWidth(width/2);
-		buttonNextFree.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pageFree++;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		
-		
-	/////PAID BUTTONS//////
-		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
-		buttonPrevPaid.setWidth(width/2);
-		buttonPrevPaid.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pagePaid--;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		Button buttonNextPaid = (Button) mViewPaid.findViewById(R.id.ButtonNext);
-		buttonNextPaid.setWidth(width/2);
-		buttonNextPaid.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pagePaid++;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		
-		
-		updateButtons();
+        
+        Intent intent = getIntent();
+
+	    if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+			query = intent.getStringExtra(SearchManager.QUERY);
+			LoadInfos();
+	    }
 	}
-	
-	public void updateButtons()
-	{
-		///FREE BUTTONS///
-		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
-		if(pageFree<=0)
-			buttonPrevFree.setEnabled(false);
-		else
-			buttonPrevFree.setEnabled(true);
-		
-		
-		///PAID BUTTONS///
-		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
-		if(pagePaid<=0)
-			buttonPrevPaid.setEnabled(false);
-		else
-			buttonPrevPaid.setEnabled(true);
-	}
-	
-	
 	
 	private class SearchSegmentedAdapter extends SegmentedAdapter {
 		 
@@ -211,16 +163,11 @@ public class SearchActivity extends BaseActivity {
  
         @Override
         public String getSegmentTitle(int position) {
-        	String more="";
             switch (mReverse ? ((getCount() - 1) - position) : position) {
                 case 0:
-                	if(appIdsFree.size()==10)
-                		more="+";
-                    return getString(R.string.categories_free)+" ("+appIdsFree.size()+more+")";
+                    return getString(R.string.categories_free);
                 case 1:
-                	if(appIdsPaid.size()==10)
-                		more="+";
-                    return getString(R.string.categories_paid)+" ("+appIdsPaid.size()+more+")";
+                    return getString(R.string.categories_paid);
             }
  
             return null;
@@ -229,30 +176,71 @@ public class SearchActivity extends BaseActivity {
 	
 	
 	
-	
-	public void LoadInfos()
+	void resetFree()
 	{
-		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
-                this.getText(R.string.loadingtext), true, false);
+		appIdsFree.clear();
+
+		namesFree.clear();
+		iconsFree.clear();
+		ratingsFree.clear();
+		pricesFree.clear();
 		
+		adapterFree=new AppsListAdapter(SearchActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
+		listViewFree.setAdapter(adapterFree);
+	}
+	void resetPaid()
+	{
+		appIdsPaid.clear();
+
+		namesPaid.clear();
+		iconsPaid.clear();
+		ratingsPaid.clear();
+		pricesPaid.clear();
+		
+		adapterPaid=new AppsListAdapter(SearchActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
+		listViewPaid.setAdapter(adapterPaid);
+	}
+	
+	
+	public void LoadInfosFree()
+	{
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
 		String sdk=Build.VERSION.SDK;
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 		try {
 			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?page="+pageFree+"&order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	public void LoadInfosPaid()
+	{
+		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
+		String terminal=pref.getString("terminal", "phone");
+		String sdk=Build.VERSION.SDK;
+		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
+		try {
 			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/apps/search.php?page="+pagePaid+"&order="+order+"&query="+URLEncoder.encode(query,"UTF-8")+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void LoadInfos()
+	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
+		LoadInfosFree();
+		LoadInfosPaid();
+	}
+
 	
 	
 	public Handler parserFree=new Handler()
     {
     	public void handleMessage(Message msg) {
-    		appIdsFree.clear();
     		String content=msg.getData().getString("content");
     		try {
     		DocumentBuilderFactory builder = DocumentBuilderFactory.newInstance();
@@ -260,11 +248,6 @@ public class SearchActivity extends BaseActivity {
 			Document document = constructeur.parse(new ByteArrayInputStream( content.getBytes()));
 			Element racine = document.getDocumentElement();
 			NodeList liste = racine.getElementsByTagName("app");
-			
-			List<String> names=new ArrayList<String>();
-			List<String> icons=new ArrayList<String>();
-			List<Float> ratings=new ArrayList<Float>();
-			List<Float> prices=new ArrayList<Float>();
 			
 			for(int i=0; i<liste.getLength(); i++){
 				  Element E1= (Element) liste.item(i);
@@ -277,17 +260,16 @@ public class SearchActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  names.add(name);
+				  namesFree.add(name);
 				  appIdsFree.add(Integer.valueOf(id));
-				  icons.add(icon);
-				  prices.add(Float.valueOf(price));
-				  ratings.add(Float.valueOf(rating));
+				  iconsFree.add(icon);
+				  pricesFree.add(Float.valueOf(price));
+				  ratingsFree.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) mViewFree.findViewById(R.id.ListViewApps);
-			listRecommended.setAdapter(new AppsListAdapter(SearchActivity.this,names,icons,ratings,prices));
 			
-			listRecommended.setOnItemClickListener(new OnItemClickListener() {
+			listViewFree.setOnScrollListener(new EndlessScrollListener());
+			listViewFree.setOnItemClickListener(new OnItemClickListener() {
 			    @SuppressWarnings("rawtypes")
 				public void onItemClick(AdapterView parent, View v, int position, long id)
 			    {
@@ -309,16 +291,17 @@ public class SearchActivity extends BaseActivity {
     		
     		mProgress.dismiss();
     		
-    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
-    		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
-            segmentedHost.setAdapter(mAdapter);
+    		if(firstfree)
+    		{
+    			listViewFree.setAdapter(adapterFree);
+    			firstfree=false;
+    		}
     	}
     };
 
 	public Handler parserPaid=new Handler()
     {
     	public void handleMessage(Message msg) {
-    		appIdsPaid.clear();
     		String content=msg.getData().getString("content");
     		try {
     		DocumentBuilderFactory builder = DocumentBuilderFactory.newInstance();
@@ -326,11 +309,6 @@ public class SearchActivity extends BaseActivity {
 			Document document = constructeur.parse(new ByteArrayInputStream( content.getBytes()));
 			Element racine = document.getDocumentElement();
 			NodeList liste = racine.getElementsByTagName("app");
-			
-			List<String> names=new ArrayList<String>();
-			List<String> icons=new ArrayList<String>();
-			List<Float> ratings=new ArrayList<Float>();
-			List<Float> prices=new ArrayList<Float>();
 			
 			for(int i=0; i<liste.getLength(); i++){
 				  Element E1= (Element) liste.item(i);
@@ -343,19 +321,17 @@ public class SearchActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  names.add(name);
+				  namesPaid.add(name);
 				  
 				  appIdsPaid.add(Integer.valueOf(id));
 				  
-				  icons.add(icon);
-				  prices.add(Float.valueOf(price));
-				  ratings.add(Float.valueOf(rating));
+				  iconsPaid.add(icon);
+				  pricesPaid.add(Float.valueOf(price));
+				  ratingsPaid.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) mViewPaid.findViewById(R.id.ListViewApps);
-			listRecommended.setAdapter(new AppsListAdapter(SearchActivity.this,names,icons,ratings,prices));
-			
-			listRecommended.setOnItemClickListener(new OnItemClickListener() {
+			listViewPaid.setOnScrollListener(new EndlessScrollListener());
+			listViewPaid.setOnItemClickListener(new OnItemClickListener() {
 			    @SuppressWarnings("rawtypes")
 				public void onItemClick(AdapterView parent, View v, int position, long id)
 			    {
@@ -376,15 +352,58 @@ public class SearchActivity extends BaseActivity {
     		
     		mProgress.dismiss();
     		
-    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
-    		SearchSegmentedAdapter mAdapter = new SearchSegmentedAdapter();
-            segmentedHost.setAdapter(mAdapter);
+    		if(firstpaid)
+    		{
+    			listViewPaid.setAdapter(adapterPaid);
+    			firstpaid=false;
+    		}
+    		
     	}
     };
     
     
     
-    
+    public class EndlessScrollListener implements OnScrollListener {
+   	 
+        private int visibleThreshold = 5;
+        private int previousTotal = 0;
+        private boolean loading = true;
+     
+        public EndlessScrollListener() {
+        }
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+     
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                if(view==listViewFree)
+                {
+                	pageFree++;
+                	LoadInfosFree();
+                }
+                else if(view==listViewPaid)
+                {
+                	pagePaid++;
+                	LoadInfosPaid();
+                }
+                loading = true;
+            }
+        }
+     
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+    }
     
     
     
@@ -404,7 +423,6 @@ public class SearchActivity extends BaseActivity {
         	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
     		pageFree=0;
     		pagePaid=0;
-    		updateButtons();
     		LoadInfos();
             return true;
         case 2: //Last
@@ -412,7 +430,6 @@ public class SearchActivity extends BaseActivity {
         	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.last).toString()+")");
     		pageFree=0;
     		pagePaid=0;
-    		updateButtons();
     		LoadInfos();
             return true;
         case 3: //Search

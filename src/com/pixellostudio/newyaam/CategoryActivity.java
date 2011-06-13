@@ -42,16 +42,15 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
+import android.widget.AbsListView;
+import android.widget.AbsListView.OnScrollListener;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TabHost;
 
@@ -71,24 +70,32 @@ public class CategoryActivity extends BaseActivity {
 	
 	private View mViewFree,mViewPaid;
 	
+	//FREE
+	List<String> namesFree=new ArrayList<String>();
+	List<String> iconsFree=new ArrayList<String>();
+	List<Float> ratingsFree=new ArrayList<Float>();
+	List<Float> pricesFree=new ArrayList<Float>();
+	
+	ListView listViewFree;
+	AppsListAdapter adapterFree;
+	
+	//PAID
+	List<String> namesPaid=new ArrayList<String>();
+	List<String> iconsPaid=new ArrayList<String>();
+	List<Float> ratingsPaid=new ArrayList<Float>();
+	List<Float> pricesPaid=new ArrayList<Float>();
+	
+	ListView listViewPaid;
+	AppsListAdapter adapterPaid;
+	
+	boolean firstfree=true, firstpaid=true;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		setActionBarContentView(R.layout.categoryscreen);
 		
 		super.onCreate(savedInstanceState);
 				
-		/*mTabHost = (TabHost) this.findViewById(R.id.tabhost);
-		mTabHost.setup();
-		
-		TabSpec tab1=mTabHost.newTabSpec("tab_free").setIndicator(getText(R.string.categories_paid).toString()).setContent(R.id.LinearLayoutPaid);
-        mTabHost.addTab(tab1);
-        
-        TabSpec tab2=mTabHost.newTabSpec("tab_paid").setIndicator(getText(R.string.categories_free).toString()).setContent(R.id.LinearLayoutFree);
-        mTabHost.addTab(tab2);
-		
-        mTabHost.getTabWidget().getChildAt(PAID).getLayoutParams().height = 40;
-        mTabHost.getTabWidget().getChildAt(FREE).getLayoutParams().height = 40;*/
-		
         getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
 		
         
@@ -97,92 +104,24 @@ public class CategoryActivity extends BaseActivity {
         mViewPaid=inflater.inflate(R.layout.category_list, null, false);
 		
 		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
-		 
+		
+		listViewFree = (ListView) mViewFree.findViewById(R.id.ListViewApps);
+        listViewPaid = (ListView) mViewPaid.findViewById(R.id.ListViewApps);
+        
+        adapterFree=new AppsListAdapter(CategoryActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
+		listViewFree.setAdapter(adapterFree);
+		
+		adapterPaid=new AppsListAdapter(CategoryActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
+		listViewPaid.setAdapter(adapterPaid);
+		
+		
+		
+		
 		FreePaidSegmentedAdapter mAdapter = new FreePaidSegmentedAdapter();
         segmentedHost.setAdapter(mAdapter);
-        
-        
-        
-		
-		Display display = ((WindowManager) getSystemService(WINDOW_SERVICE)).getDefaultDisplay();
-		int width = display.getWidth(); 
-		
-		/////FREE BUTTONS//////
-		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
-		//buttonPrevFree.setBackgroundDrawable(this.getResources().getDrawable(android.R.drawable.));
-		buttonPrevFree.setWidth(width/2);
-		buttonPrevFree.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pageFree--;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		Button buttonNextFree = (Button) mViewFree.findViewById(R.id.ButtonNext);
-		buttonNextFree.setWidth(width/2);
-		buttonNextFree.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pageFree++;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		
-		
-	/////PAID BUTTONS//////
-		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
-		buttonPrevPaid.setWidth(width/2);
-		buttonPrevPaid.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pagePaid--;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		Button buttonNextPaid = (Button) mViewPaid.findViewById(R.id.ButtonNext);
-		buttonNextPaid.setWidth(width/2);
-		buttonNextPaid.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-            	pagePaid++;
-            	
-            	updateButtons();
-            	
-        		LoadInfos();
-            }
-	     }); 
-		
-		
-		
-		
-		updateButtons();
-		LoadInfos();
-	}
 
-	public void updateButtons()
-	{
-		///FREE BUTTONS///
-		Button buttonPrevFree = (Button) mViewFree.findViewById(R.id.ButtonPrev);
-		if(pageFree<=0)
-			buttonPrevFree.setEnabled(false);
-		else
-			buttonPrevFree.setEnabled(true);
-		
-		
-		///PAID BUTTONS///
-		Button buttonPrevPaid = (Button) mViewPaid.findViewById(R.id.ButtonPrev);
-		if(pagePaid<=0)
-			buttonPrevPaid.setEnabled(false);
-		else
-			buttonPrevPaid.setEnabled(true);
+
+		LoadInfos();
 	}
 	
 	
@@ -209,16 +148,11 @@ public class CategoryActivity extends BaseActivity {
  
         @Override
         public String getSegmentTitle(int position) {
-        	String more="";
             switch (mReverse ? ((getCount() - 1) - position) : position) {
                 case 0:
-                	if(appIdsFree.size()==10)
-                		more="+";
-                    return getString(R.string.categories_free)+" ("+appIdsFree.size()+more+")";
+                    return getString(R.string.categories_free);
                 case 1:
-                	if(appIdsPaid.size()==10)
-                		more="+";
-                    return getString(R.string.categories_paid)+" ("+appIdsPaid.size()+more+")";
+                    return getString(R.string.categories_paid);
             }
  
             return null;
@@ -226,12 +160,34 @@ public class CategoryActivity extends BaseActivity {
     }
 	
 	
-	
-	public void LoadInfos()
+	void resetFree()
 	{
-		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
-                this.getText(R.string.loadingtext), true, false);
+		appIdsFree.clear();
+
+		namesFree.clear();
+		iconsFree.clear();
+		ratingsFree.clear();
+		pricesFree.clear();
 		
+		adapterFree=new AppsListAdapter(CategoryActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
+		listViewFree.setAdapter(adapterFree);
+	}
+	void resetPaid()
+	{
+		appIdsPaid.clear();
+
+		namesPaid.clear();
+		iconsPaid.clear();
+		ratingsPaid.clear();
+		pricesPaid.clear();
+		
+		adapterPaid=new AppsListAdapter(CategoryActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
+		listViewPaid.setAdapter(adapterPaid);
+	}
+	
+	
+	public void LoadInfosFree()
+	{
 		int catid=getIntent().getExtras().getInt("id");
 		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
 		String terminal=pref.getString("terminal", "phone");
@@ -239,18 +195,38 @@ public class CategoryActivity extends BaseActivity {
 		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
 		try {
 			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+pageFree+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=0&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserFree);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
+	}
+	public void LoadInfosPaid()
+	{
+		int catid=getIntent().getExtras().getInt("id");
+		SharedPreferences pref=PreferenceManager.getDefaultSharedPreferences(this);  
+		String terminal=pref.getString("terminal", "phone");
+		String sdk=Build.VERSION.SDK;
+		String lang=getApplicationContext().getResources().getConfiguration().locale.getISO3Language();
+		try {
 			Tools.queryWeb(Functions.getHost(getApplicationContext())+"/categories/applications.php?page="+pagePaid+"&order="+order+"&catid="+catid+"&lang="+lang+"&sdk="+URLEncoder.encode(sdk,"UTF-8")+"&paid=1&terminal="+URLEncoder.encode(terminal,"UTF-8")+"&ypass="+Functions.getPassword(getApplicationContext()), parserPaid);
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
 		}
 	}
 	
+	public void LoadInfos()
+	{
+		mProgress = ProgressDialog.show(this, this.getText(R.string.loading),
+                this.getText(R.string.loadingtext), true, false);
+		
+		LoadInfosFree();
+		LoadInfosPaid();
+	}
 	
 	
 	public Handler parserFree=new Handler()
     {
     	public void handleMessage(Message msg) {
-    		appIdsFree.clear();
+    		//appIdsFree.clear();
     		String content=msg.getData().getString("content");
     		try {
     		DocumentBuilderFactory builder = DocumentBuilderFactory.newInstance();
@@ -259,10 +235,6 @@ public class CategoryActivity extends BaseActivity {
 			Element racine = document.getDocumentElement();
 			NodeList liste = racine.getElementsByTagName("app");
 			
-			List<String> names=new ArrayList<String>();
-			List<String> icons=new ArrayList<String>();
-			List<Float> ratings=new ArrayList<Float>();
-			List<Float> prices=new ArrayList<Float>();
 			
 			for(int i=0; i<liste.getLength(); i++){
 				  Element E1= (Element) liste.item(i);
@@ -275,17 +247,17 @@ public class CategoryActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  names.add(name);
+				  namesFree.add(name);
 				  appIdsFree.add(Integer.valueOf(id));
-				  icons.add(icon);
-				  prices.add(Float.valueOf(price));
-				  ratings.add(Float.valueOf(rating));
+				  iconsFree.add(icon);
+				  pricesFree.add(Float.valueOf(price));
+				  ratingsFree.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) mViewFree.findViewById(R.id.ListViewApps);
-			listRecommended.setAdapter(new AppsListAdapter(CategoryActivity.this,names,icons,ratings,prices));
 			
-			listRecommended.setOnItemClickListener(new OnItemClickListener() {
+			
+			listViewFree.setOnScrollListener(new EndlessScrollListener());
+			listViewFree.setOnItemClickListener(new OnItemClickListener() {
 			    @SuppressWarnings("rawtypes")
 				public void onItemClick(AdapterView parent, View v, int position, long id)
 			    {
@@ -303,19 +275,20 @@ public class CategoryActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
+    		if(firstfree)
+    		{
+    			listViewFree.setAdapter(adapterFree);
+    			firstfree=false;
+    		}
     		
     		mProgress.dismiss();
-    		
-    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
-    		FreePaidSegmentedAdapter mAdapter = new FreePaidSegmentedAdapter();
-            segmentedHost.setAdapter(mAdapter);
     	}
     };
 
 	public Handler parserPaid=new Handler()
     {
     	public void handleMessage(Message msg) {
-    		appIdsPaid.clear();
+    		//appIdsPaid.clear();
     		String content=msg.getData().getString("content");
     		try {
     		DocumentBuilderFactory builder = DocumentBuilderFactory.newInstance();
@@ -324,10 +297,6 @@ public class CategoryActivity extends BaseActivity {
 			Element racine = document.getDocumentElement();
 			NodeList liste = racine.getElementsByTagName("app");
 			
-			List<String> names=new ArrayList<String>();
-			List<String> icons=new ArrayList<String>();
-			List<Float> ratings=new ArrayList<Float>();
-			List<Float> prices=new ArrayList<Float>();
 			
 			for(int i=0; i<liste.getLength(); i++){
 				  Element E1= (Element) liste.item(i);
@@ -340,19 +309,18 @@ public class CategoryActivity extends BaseActivity {
 				  rating=Functions.getDataFromXML(E1,"rating");
 				  price=Functions.getDataFromXML(E1,"price");
 				  
-				  names.add(name);
+				  namesPaid.add(name);
 				  
 				  appIdsPaid.add(Integer.valueOf(id));
 				  
-				  icons.add(icon);
-				  prices.add(Float.valueOf(price));
-				  ratings.add(Float.valueOf(rating));
+				  iconsPaid.add(icon);
+				  pricesPaid.add(Float.valueOf(price));
+				  ratingsPaid.add(Float.valueOf(rating));
 			  }
 			
-			ListView listRecommended = (ListView) mViewPaid.findViewById(R.id.ListViewApps);
-			listRecommended.setAdapter(new AppsListAdapter(CategoryActivity.this,names,icons,ratings,prices));
 			
-			listRecommended.setOnItemClickListener(new OnItemClickListener() {
+			listViewPaid.setOnScrollListener(new EndlessScrollListener());
+			listViewPaid.setOnItemClickListener(new OnItemClickListener() {
 			    @SuppressWarnings("rawtypes")
 				public void onItemClick(AdapterView parent, View v, int position, long id)
 			    {
@@ -370,17 +338,61 @@ public class CategoryActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
+    		if(firstpaid)
+    		{
+    			listViewPaid.setAdapter(adapterPaid);
+    			firstpaid=false;
+    		}
     	
     		mProgress.dismiss();
-    		
-    		SegmentedHost segmentedHost = (SegmentedHost) findViewById(R.id.segmentedHost);
-    		FreePaidSegmentedAdapter mAdapter = new FreePaidSegmentedAdapter();
-            segmentedHost.setAdapter(mAdapter);
     	}
     };
     
     
     
+    
+    
+    public class EndlessScrollListener implements OnScrollListener {
+    	 
+        private int visibleThreshold = 5;
+        private int previousTotal = 0;
+        private boolean loading = true;
+     
+        public EndlessScrollListener() {
+        }
+        public EndlessScrollListener(int visibleThreshold) {
+            this.visibleThreshold = visibleThreshold;
+        }
+     
+        @Override
+        public void onScroll(AbsListView view, int firstVisibleItem,
+                int visibleItemCount, int totalItemCount) {
+            if (loading) {
+                if (totalItemCount > previousTotal) {
+                    loading = false;
+                    previousTotal = totalItemCount;
+                    
+                }
+            }
+            if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
+                if(view==listViewFree)
+                {
+                	pageFree++;
+                	LoadInfosFree();
+                }
+                else if(view==listViewPaid)
+                {
+                	pagePaid++;
+                	LoadInfosPaid();
+                }
+                loading = true;
+            }
+        }
+     
+        @Override
+        public void onScrollStateChanged(AbsListView view, int scrollState) {
+        }
+    }
     
     
     
@@ -399,7 +411,7 @@ public class CategoryActivity extends BaseActivity {
         	getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.top)+")".toString());
     		pageFree=0;
     		pagePaid=0;
-    		updateButtons();
+    		resetFree();
     		LoadInfos();
             return true;
         case 2: //Last
@@ -407,7 +419,7 @@ public class CategoryActivity extends BaseActivity {
         	getActionBar().setTitle(getIntent().getExtras().getString("name")+" ("+getText(R.string.last).toString()+")");
     		pageFree=0;
     		pagePaid=0;
-    		updateButtons();
+    		resetPaid();
     		LoadInfos();
             return true;
         case 3: //Search
