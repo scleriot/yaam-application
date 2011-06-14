@@ -171,6 +171,8 @@ public class CategoryActivity extends BaseActivity {
 		
 		adapterFree=new AppsListAdapter(CategoryActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
 		listViewFree.setAdapter(adapterFree);
+		
+		firstfree=true;
 	}
 	void resetPaid()
 	{
@@ -183,6 +185,8 @@ public class CategoryActivity extends BaseActivity {
 		
 		adapterPaid=new AppsListAdapter(CategoryActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
 		listViewPaid.setAdapter(adapterPaid);
+		
+		firstpaid=true;
 	}
 	
 	
@@ -255,6 +259,15 @@ public class CategoryActivity extends BaseActivity {
 			  }
 			
 			
+
+			if(firstfree)
+			{
+				listViewFree.setAdapter(adapterFree);
+				firstfree=false;
+			}
+			else
+				adapterFree.notifyDataSetChanged();
+			
 			
 			listViewFree.setOnScrollListener(new EndlessScrollListener());
 			listViewFree.setOnItemClickListener(new OnItemClickListener() {
@@ -275,11 +288,7 @@ public class CategoryActivity extends BaseActivity {
     			e.printStackTrace();
     		}
     		
-    		if(firstfree)
-    		{
-    			listViewFree.setAdapter(adapterFree);
-    			firstfree=false;
-    		}
+    		
     		
     		mProgress.dismiss();
     	}
@@ -343,6 +352,8 @@ public class CategoryActivity extends BaseActivity {
     			listViewPaid.setAdapter(adapterPaid);
     			firstpaid=false;
     		}
+    		else
+				adapterPaid.notifyDataSetChanged();
     	
     		mProgress.dismiss();
     	}
@@ -412,6 +423,7 @@ public class CategoryActivity extends BaseActivity {
     		pageFree=0;
     		pagePaid=0;
     		resetFree();
+    		resetPaid();
     		LoadInfos();
             return true;
         case 2: //Last
@@ -420,6 +432,7 @@ public class CategoryActivity extends BaseActivity {
     		pageFree=0;
     		pagePaid=0;
     		resetPaid();
+    		resetFree();
     		LoadInfos();
             return true;
         case 3: //Search

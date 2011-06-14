@@ -185,6 +185,8 @@ public class SearchActivity extends BaseActivity {
 		ratingsFree.clear();
 		pricesFree.clear();
 		
+		firstfree=false;
+		
 		adapterFree=new AppsListAdapter(SearchActivity.this,namesFree,iconsFree,ratingsFree,pricesFree);
 		listViewFree.setAdapter(adapterFree);
 	}
@@ -196,6 +198,8 @@ public class SearchActivity extends BaseActivity {
 		iconsPaid.clear();
 		ratingsPaid.clear();
 		pricesPaid.clear();
+		
+		firstpaid=false;
 		
 		adapterPaid=new AppsListAdapter(SearchActivity.this,namesPaid,iconsPaid,ratingsPaid,pricesPaid);
 		listViewPaid.setAdapter(adapterPaid);
@@ -296,6 +300,8 @@ public class SearchActivity extends BaseActivity {
     			listViewFree.setAdapter(adapterFree);
     			firstfree=false;
     		}
+    		else
+				adapterFree.notifyDataSetChanged();
     	}
     };
 
@@ -357,6 +363,8 @@ public class SearchActivity extends BaseActivity {
     			listViewPaid.setAdapter(adapterPaid);
     			firstpaid=false;
     		}
+    		else
+				adapterPaid.notifyDataSetChanged();
     		
     	}
     };
@@ -423,6 +431,8 @@ public class SearchActivity extends BaseActivity {
         	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.top)+")".toString());
     		pageFree=0;
     		pagePaid=0;
+    		resetFree();
+    		resetPaid();
     		LoadInfos();
             return true;
         case 2: //Last
@@ -430,6 +440,8 @@ public class SearchActivity extends BaseActivity {
         	getActionBar().setTitle(getText(R.string.search_results)+" ("+getText(R.string.last).toString()+")");
     		pageFree=0;
     		pagePaid=0;
+    		resetFree();
+    		resetPaid();
     		LoadInfos();
             return true;
         case 3: //Search
