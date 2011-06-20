@@ -38,7 +38,6 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.NodeList;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -63,6 +62,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
 import android.view.WindowManager;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -75,6 +75,7 @@ import android.widget.TextView;
 
 import com.paypal.android.MEP.CheckoutButton;
 import com.paypal.android.MEP.PayPal;
+import com.paypal.android.MEP.PayPalActivity;
 import com.paypal.android.MEP.PayPalAdvancedPayment;
 import com.paypal.android.MEP.PayPalInvoiceData;
 import com.paypal.android.MEP.PayPalInvoiceItem;
@@ -658,7 +659,7 @@ public class ShowAppActivity extends BaseActivity {
     		paymentDialog.dismiss();
     		
     		switch(resultCode) {
-    		case Activity.RESULT_OK:
+    		case PayPalActivity.RESULT_OK:
     			/*		try {
     						int iDiscount=Integer.valueOf(discount);
     						float toPay=(float) (Float.valueOf(price)-(Float.valueOf(price)*iDiscount/100));
@@ -702,9 +703,23 @@ public class ShowAppActivity extends BaseActivity {
          	    
          		
     			break;
+    		case PayPalActivity.RESULT_FAILURE:
+    			progressDialog.dismiss();
+            	
+            	AlertDialog.Builder builder = new AlertDialog.Builder(ShowAppActivity.this);
+
+    			builder.setMessage(R.string.errorbought)
+    			       .setCancelable(false)
+    			       .setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    			           public void onClick(DialogInterface dialog, int id) {
+    			        	   //LoadInfos();
+    			           }
+    			       });
+
+        		AlertDialog alertDialog = builder.create();
+        		alertDialog.show();
+    			break;
     		}
-    		
-    		
     	}
     	else if(requestCode==2) //Uninstalled App
     	{
@@ -734,6 +749,7 @@ public class ShowAppActivity extends BaseActivity {
     {
     	paymentDialog = new Dialog(this);
 
+    	paymentDialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
     	paymentDialog.setContentView(R.layout.choosepaymentdialog);
     	paymentDialog.setTitle("");
     	paymentDialog.setCancelable(true);

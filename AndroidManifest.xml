@@ -11,7 +11,9 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name="com.paypal.android.MEP.PayPalActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar"/>
+        <activity android:name="com.paypal.android.MEP.PayPalActivity" 
+        		android:theme="@android:style/Theme.Translucent.NoTitleBar"
+        		android:configChanges="keyboardHidden|orientation" />
         <activity android:name=".RegisterActivity"/>
         <activity android:name=".HomeActivity"
         	android:configChanges="orientation"/>
